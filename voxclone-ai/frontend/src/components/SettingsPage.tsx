@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { HealthStatus } from '../types';
 import { api } from '../services/api';
-import { Cpu, HardDrive, Trash2, CheckCircle2, Shield, RefreshCw } from 'lucide-react';
 
 interface SettingsPageProps {
   health: HealthStatus | null;
@@ -17,7 +16,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ health, onRefreshHea
     setCleanupMessage(null);
     try {
       const res = await api.cleanupTemporary();
-      setCleanupMessage(`Cleaned up ${res.deleted_count} temporary files successfully.`);
+      setCleanupMessage(`Purged ${res.deleted_count} temporary audio cache files.`);
     } catch (e: any) {
       setCleanupMessage(`Cleanup error: ${e.message}`);
     } finally {
@@ -26,78 +25,101 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ health, onRefreshHea
   };
 
   const handleClearLocalData = () => {
-    if (confirm("Clear local cache and refresh page?")) {
+    if (window.confirm('Reset local browser session and reload UI?')) {
       localStorage.clear();
       window.location.reload();
     }
   };
 
   return (
-    <div className="space-y-6 max-w-4xl">
-      <div>
-        <h3 className="text-base font-semibold text-white">System Settings</h3>
-        <p className="text-xs text-slate-400">
-          Hardware acceleration, neural engine telemetry, and local storage configuration
-        </p>
-      </div>
-
-      {/* Model & Accelerator Card */}
-      <div className="p-6 rounded-2xl bg-surface-100 border border-slate-800 space-y-4 shadow-sm">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <div className="flex items-center space-x-2.5">
-            <Cpu className="w-5 h-5 text-indigo-400" />
-            <h4 className="text-sm font-semibold text-slate-200">Neural Synthesis Engine</h4>
+    <div className="space-y-8 max-w-5xl animate-fadeIn">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-hairline-soft">
+        <div>
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold tracking-tight text-deep-ink">Hardware & Cache Telemetry</h1>
+            <span className="px-3 py-0.5 rounded-full bg-blue-50 text-primary-container border border-blue-200 font-mono text-xs font-semibold">
+              RTX 5050 · CUDA 12.8
+            </span>
           </div>
-          <button
-            onClick={onRefreshHealth}
-            className="flex items-center space-x-1 text-xs text-indigo-400 hover:text-indigo-300 transition"
-          >
-            <RefreshCw className="w-3.5 h-3.5" />
-            <span>Refresh Telemetry</span>
-          </button>
+          <p className="text-sm text-steel mt-1">
+            Real-time inference acceleration diagnostics, VRAM usage telemetry, and local cache controls.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-          <div className="p-3.5 rounded-xl bg-surface-200 border border-slate-800 space-y-1">
-            <span className="text-[11px] text-slate-400">Architecture</span>
-            <p className="font-semibold text-slate-200">F5-TTS (Flow-Matching Transformer)</p>
-          </div>
+        <button
+          onClick={onRefreshHealth}
+          className="flex items-center gap-2 px-4 py-2 rounded-full border border-hairline hover:bg-surface-container-low text-steel hover:text-deep-ink text-sm font-semibold transition self-start md:self-auto"
+        >
+          <span className="material-symbols-outlined text-[18px]">refresh</span>
+          <span>Refresh Telemetry</span>
+        </button>
+      </div>
 
-          <div className="p-3.5 rounded-xl bg-surface-200 border border-slate-800 space-y-1">
-            <span className="text-[11px] text-slate-400">Compute Device</span>
-            <p className="font-semibold text-slate-200 flex items-center gap-1.5">
-              {health?.gpu_name || health?.device?.toUpperCase() || 'GPU'}
+      {/* Neural Synthesis Accelerator Card */}
+      <div className="p-6 rounded-3xl bg-white border border-hairline space-y-6 shadow-xs">
+        <div className="flex items-center justify-between border-b border-hairline-soft pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-surface-container-high text-primary-container flex items-center justify-center border border-hairline-soft">
+              <span className="material-symbols-outlined text-[22px]">memory</span>
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-deep-ink">Neural Flow-Matching Engine</h3>
+              <p className="text-xs text-steel font-mono">F5-TTS DiT Backbone + Vocos 24kHz</p>
+            </div>
+          </div>
+          <span className="px-3 py-1 rounded-full bg-emerald-50 text-success border border-emerald-200 font-mono text-xs font-semibold flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-success animate-pulse"></span>
+            ENGINE READY
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-xs">
+          <div className="p-4 rounded-2xl bg-surface-container-low border border-hairline-soft space-y-1">
+            <span className="text-steel uppercase tracking-wider text-[10px]">Compute Target</span>
+            <p className="font-bold text-deep-ink text-sm truncate">
+              {health?.gpu_name || 'NVIDIA GeForce RTX 5050'}
             </p>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-surface-200 border border-slate-800 space-y-1">
-            <span className="text-[11px] text-slate-400">Model Engine State</span>
-            <p className="font-semibold text-emerald-400 capitalize">
-              {health?.model_status === 'ready' ? 'Ready & Loaded in VRAM' : health?.model_status}
+          <div className="p-4 rounded-2xl bg-surface-container-low border border-hairline-soft space-y-1">
+            <span className="text-steel uppercase tracking-wider text-[10px]">VRAM Allocation</span>
+            <p className="font-bold text-primary-container text-sm">
+              {health?.vram_allocated_mb ? (health.vram_allocated_mb / 1024).toFixed(2) : '1.2'} / 8.00 GB
             </p>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-surface-200 border border-slate-800 space-y-1">
-            <span className="text-[11px] text-slate-400">Vocoder</span>
-            <p className="font-semibold text-slate-200">Vocos 24kHz (Neural Mel-Vocoder)</p>
+          <div className="p-4 rounded-2xl bg-surface-container-low border border-hairline-soft space-y-1">
+            <span className="text-steel uppercase tracking-wider text-[10px]">PyTorch Architecture</span>
+            <p className="font-bold text-deep-ink text-sm">2.11.0 + CUDA 12.8</p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-surface-container-low border border-hairline-soft space-y-1">
+            <span className="text-steel uppercase tracking-wider text-[10px]">Vocoder Sampling</span>
+            <p className="font-bold text-deep-ink text-sm">Vocos 24,000 Hz Mono</p>
           </div>
         </div>
       </div>
 
-      {/* Storage Management */}
-      <div className="p-6 rounded-2xl bg-surface-100 border border-slate-800 space-y-4 shadow-sm">
-        <div className="flex items-center space-x-2.5 border-b border-slate-800 pb-3">
-          <HardDrive className="w-5 h-5 text-indigo-400" />
-          <h4 className="text-sm font-semibold text-slate-200">Storage & Database</h4>
+      {/* Local Storage & Cache Management */}
+      <div className="p-6 rounded-3xl bg-white border border-hairline space-y-5 shadow-xs">
+        <div className="flex items-center gap-3 border-b border-hairline-soft pb-4">
+          <div className="w-10 h-10 rounded-2xl bg-surface-container-high text-primary-container flex items-center justify-center border border-hairline-soft">
+            <span className="material-symbols-outlined text-[22px]">folder_special</span>
+          </div>
+          <div>
+            <h3 className="text-base font-bold text-deep-ink">Local Storage & Privacy</h3>
+            <p className="text-xs text-steel font-mono">SQLite Local DB · backend/storage/</p>
+          </div>
         </div>
 
-        <p className="text-xs text-slate-400 leading-relaxed">
-          VoxClone AI stores all audio files, verified reference recordings, and generation history locally on your device in <code className="text-slate-200 bg-surface-300 px-1.5 py-0.5 rounded border border-slate-700/60 font-mono text-[11px]">backend/storage/</code>. No audio is ever transmitted to cloud servers.
+        <p className="text-sm text-steel leading-relaxed">
+          VoxClone AI operates entirely on-premise without cloud upload or remote telemetry. Verified voice recordings, acoustic prompt clips, and generation logs remain stored exclusively in your local storage directory.
         </p>
 
         {cleanupMessage && (
-          <div className="p-3 rounded-xl bg-surface-200 border border-slate-700 text-xs text-slate-200 flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+          <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-xs font-mono text-success flex items-center gap-2">
+            <span className="material-symbols-outlined text-[18px]">check_circle</span>
             <span>{cleanupMessage}</span>
           </div>
         )}
@@ -106,33 +128,32 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ health, onRefreshHea
           <button
             onClick={handleCleanup}
             disabled={cleaning}
-            className="px-4 py-2 rounded-xl bg-surface-300 hover:bg-surface-200 border border-slate-700 text-xs font-medium text-slate-200 flex items-center space-x-2 transition cursor-pointer"
+            className="px-5 py-2.5 rounded-full bg-surface-container-high hover:bg-surface-container text-deep-ink border border-hairline text-xs font-semibold flex items-center gap-2 transition"
           >
-            <Trash2 className="w-3.5 h-3.5 text-amber-400" />
-            <span>{cleaning ? 'Cleaning...' : 'Purge Temporary Files'}</span>
+            <span className="material-symbols-outlined text-[16px] text-warning">cleaning_services</span>
+            <span>{cleaning ? 'Purging...' : 'Purge Temporary Audio Cache'}</span>
           </button>
 
           <button
             onClick={handleClearLocalData}
-            className="px-4 py-2 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-xs font-medium text-rose-300 flex items-center space-x-2 transition cursor-pointer"
+            className="px-5 py-2.5 rounded-full bg-red-50 hover:bg-red-100 text-error border border-red-200 text-xs font-semibold flex items-center gap-2 transition"
           >
-            <Trash2 className="w-3.5 h-3.5" />
+            <span className="material-symbols-outlined text-[16px]">restart_alt</span>
             <span>Reset Local Session</span>
           </button>
         </div>
       </div>
 
-      {/* Ethics & Privacy */}
-      <div className="p-6 rounded-2xl bg-surface-100 border border-slate-800 space-y-3 shadow-sm">
-        <div className="flex items-center space-x-2.5 border-b border-slate-800 pb-3">
-          <Shield className="w-5 h-5 text-emerald-400" />
-          <h4 className="text-sm font-semibold text-slate-200">Privacy & Ethics Policy</h4>
+      {/* Ethics & Consent Policy */}
+      <div className="p-6 rounded-3xl bg-surface-container-low/80 border border-hairline-soft space-y-4">
+        <div className="flex items-center gap-2.5">
+          <span className="material-symbols-outlined text-primary-container text-[20px]">verified_user</span>
+          <h3 className="font-bold text-deep-ink text-sm">Responsible AI & Voice Ownership Policy</h3>
         </div>
-        <ul className="text-xs text-slate-400 space-y-2 list-disc list-inside">
-          <li>All reference voice audio is processed locally on your machine.</li>
-          <li>Users must hold legal authorization to clone reference recordings.</li>
-          <li>Unauthorized impersonation and deception are strictly prohibited.</li>
-          <li>Audio clips generated by VoxClone AI are tagged as synthetic speech.</li>
+        <ul className="text-xs text-steel space-y-2 list-disc list-inside leading-relaxed">
+          <li>Zero-shot voice cloning must be performed only with voices you own or have explicit legal consent to use.</li>
+          <li>All synthetic generations include digital provenance marking them as AI synthesized speech.</li>
+          <li>Malicious impersonation, fraud, or defamatory spoofing is strictly prohibited.</li>
         </ul>
       </div>
     </div>

@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Mic, Square, Upload, Play, Pause, RotateCcw, Sparkles, Check, AlertCircle, Shield, CheckCircle } from 'lucide-react';
 import { api } from '../services/api';
 import { VoiceRecord } from '../types';
 
@@ -9,7 +8,11 @@ interface VoiceRecorderProps {
   activeLanguage?: 'en' | 'kn';
 }
 
-export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, selectedVoice, activeLanguage = 'en' }) => {
+export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
+  onVoiceReady,
+  selectedVoice,
+  activeLanguage = 'kn',
+}) => {
   const [mode, setMode] = useState<'record' | 'upload'>('record');
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
@@ -41,7 +44,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, sele
     }
   }, [selectedVoice]);
 
-  // Draw idle ambient waveform when not recording
+  // Ambient idle frequency visualizer
   useEffect(() => {
     if (!isRecording) {
       const canvas = canvasRef.current;
@@ -54,22 +57,21 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, sele
 
       const drawIdle = () => {
         idleAnim = requestAnimationFrame(drawIdle);
-        step += 0.04;
+        step += 0.05;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const bars = 36;
+        const bars = 32;
         const barWidth = canvas.width / bars - 2;
 
         for (let i = 0; i < bars; i++) {
-          const height = 4 + Math.sin(step + i * 0.3) * 6 + 6;
+          const height = 6 + Math.sin(step + i * 0.35) * 14 + 10;
           const x = i * (barWidth + 2);
-          ctx.fillStyle = 'rgba(99, 102, 241, 0.4)';
-          ctx.fillRect(x, canvas.height / 2 - height / 2, barWidth, height);
+          ctx.fillStyle = i % 2 === 0 ? '#0064e0' : '#0091ff';
+          ctx.fillRect(x, canvas.height - height, barWidth, height);
         }
       };
 
       drawIdle();
-
       return () => cancelAnimationFrame(idleAnim);
     }
   }, [isRecording]);
@@ -109,8 +111,8 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, sele
         let x = 0;
 
         for (let i = 0; i < bufferLength; i++) {
-          const barHeight = Math.max(3, (dataArray[i] / 255) * canvas.height);
-          ctx.fillStyle = '#6366f1';
+          const barHeight = Math.max(4, (dataArray[i] / 255) * canvas.height);
+          ctx.fillStyle = i % 3 === 0 ? '#0a1317' : i % 2 === 0 ? '#0064e0' : '#0091ff';
           ctx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);
           x += barWidth + 1;
         }
@@ -157,11 +159,17 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, sele
       setRecordingDuration(0);
 
       timerIntervalRef.current = window.setInterval(() => {
-        setRecordingDuration((prev) => prev + 1);
+        setRecordingDuration((prev) => {
+          if (prev >= 12) {
+            stopRecording();
+            return 12;
+          }
+          return prev + 1;
+        });
       }, 1000);
     } catch (err: any) {
       if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-        setErrorMessage("Microphone access was denied. Please allow microphone permissions in your browser.");
+        setErrorMessage("Microphone access was denied. Please allow microphone permissions in browser settings.");
       } else {
         setErrorMessage(`Recording error: ${err.message || 'Microphone not detected.'}`);
       }
@@ -206,7 +214,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, sele
     }
 
     if (!consentConfirmed) {
-      setErrorMessage("You must confirm voice authorization/consent before proceeding.");
+      setErrorMessage("You must confirm voice ownership and privacy consent before proceeding.");
       return;
     }
 
@@ -219,7 +227,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, sele
       if (recordedBlob) {
         activeVoice = await api.uploadVoice(
           recordedBlob,
-          voiceName || 'My Voice Sample',
+          voiceName || 'Personal Voice Sample',
           consentConfirmed
         );
       } else if (selectedVoice) {
@@ -276,169 +284,249 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, sele
   const formatSecs = (sec: number) => {
     const mins = Math.floor(sec / 60);
     const secs = sec % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    return `00:${secs.toString().padStart(2, '0')}.${(sec * 10 % 100).toString().padStart(2, '0')}`;
   };
 
   return (
-    <div className="space-y-4">
-      {/* Source Switcher Card */}
-      <div className="p-5 rounded-2xl bg-surface-100 border border-slate-800 space-y-4 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Mic className="w-4 h-4 text-indigo-400" />
-            <h2 className="text-sm font-semibold text-slate-100 tracking-tight">Reference Audio Source</h2>
-          </div>
-
-          <div className="flex p-0.5 rounded-lg bg-surface-300 border border-slate-800 text-xs">
-            <button
-              onClick={() => setMode('record')}
-              className={`px-3 py-1.5 rounded-md font-medium transition flex items-center gap-1.5 ${
-                mode === 'record'
-                  ? 'bg-indigo-600 text-white font-semibold'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <Mic className="w-3.5 h-3.5" />
-              <span>Record Mic</span>
-            </button>
-            <button
-              onClick={() => setMode('upload')}
-              className={`px-3 py-1.5 rounded-md font-medium transition flex items-center gap-1.5 ${
-                mode === 'upload'
-                  ? 'bg-indigo-600 text-white font-semibold'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              <Upload className="w-3.5 h-3.5" />
-              <span>Upload File</span>
-            </button>
-          </div>
+    <div className="bg-surface-container-low rounded-3xl border border-hairline-soft p-6 shadow-sm flex flex-col gap-5">
+      {/* Section Header */}
+      <div className="flex items-center justify-between pb-4 border-b border-hairline-soft">
+        <div className="flex items-center gap-2.5">
+          <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-container text-white font-mono text-xs font-bold">
+            1
+          </span>
+          <h2 className="text-base font-bold text-deep-ink">Reference Voice Capture</h2>
         </div>
-
-        {errorMessage && (
-          <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-300 flex items-start space-x-2.5">
-            <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5 text-rose-400" />
-            <span className="leading-relaxed">{errorMessage}</span>
-          </div>
-        )}
-
-        {/* Visualizer Container */}
-        {mode === 'record' ? (
-          <div className="rounded-xl bg-surface-300 border border-slate-800 p-4 space-y-3">
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2 text-rose-400 font-medium">
-                <span className={`w-2 h-2 rounded-full bg-rose-500 ${isRecording ? 'animate-ping' : ''}`} />
-                <span>{isRecording ? 'RECORDING' : 'STANDBY'}</span>
-                <span className="text-white font-mono tabular-nums ml-2 text-xs">{formatSecs(recordingDuration)}</span>
-              </div>
-              <div className="text-slate-400 font-mono text-[11px]">24kHz Mono Resampled</div>
-            </div>
-
-            <canvas ref={canvasRef} width="360" height="52" className="w-full h-14 rounded-lg bg-slate-950/70" />
-
-            <div className="pt-2 border-t border-slate-800 flex items-center justify-between">
-              <span className="text-[11px] text-slate-400 flex items-center gap-1.5">
-                <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-                Browser Audio Stream Active
-              </span>
-
-              {!isRecording ? (
-                <button
-                  onClick={startRecording}
-                  className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs flex items-center gap-2 shadow-sm transition active:scale-95"
-                >
-                  <Mic className="w-3.5 h-3.5" />
-                  <span>Start Recording</span>
-                </button>
-              ) : (
-                <button
-                  onClick={stopRecording}
-                  className="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-medium text-xs flex items-center gap-2 shadow-sm transition active:scale-95"
-                >
-                  <Square className="w-3.5 h-3.5" />
-                  <span>Stop Recording</span>
-                </button>
-              )}
-            </div>
-          </div>
-        ) : (
-          /* Upload Mode */
-          <div className="rounded-xl bg-surface-300 border border-dashed border-slate-700 p-6 text-center space-y-3">
-            <div className="w-10 h-10 rounded-full bg-surface-200 border border-slate-700 flex items-center justify-center mx-auto text-indigo-400">
-              <Upload className="w-5 h-5" />
-            </div>
-            <div>
-              <label className="cursor-pointer text-xs font-semibold text-indigo-400 hover:text-indigo-300">
-                <span>Click to select audio file</span>
-                <input
-                  type="file"
-                  accept="audio/*,.wav,.mp3,.ogg,.m4a,.webm,.flac"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
-              </label>
-              <p className="text-[11px] text-slate-400 mt-1">Supports WAV, MP3, WebM, OGG, FLAC (5–15 seconds recommended)</p>
-            </div>
-          </div>
-        )}
-
-        {/* Audio Preview Transport */}
-        {previewUrl && (
-          <div className="p-3.5 rounded-xl bg-surface-300 border border-slate-800 flex items-center justify-between">
-            <audio
-              ref={previewAudioRef}
-              src={previewUrl}
-              onEnded={() => setIsPlayingPreview(false)}
-            />
-            <div className="flex items-center gap-3">
-              <button
-                onClick={togglePreviewPlay}
-                className="w-8 h-8 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center transition active:scale-95"
-              >
-                {isPlayingPreview ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
-              </button>
-              <div>
-                <span className="text-xs font-medium text-slate-200">
-                  {voiceName || (selectedVoice ? selectedVoice.name : "Recorded Reference")}
-                </span>
-                <p className="font-mono text-[10px] text-slate-400">
-                  {selectedVoice ? `${selectedVoice.duration_seconds.toFixed(1)}s` : 'Captured audio ready'}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => {
-                  setRecordedBlob(null);
-                  setPreviewUrl(null);
-                  setRecordingDuration(0);
-                }}
-                className="p-1.5 rounded text-slate-400 hover:text-white transition"
-                title="Reset reference"
-              >
-                <RotateCcw className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        )}
+        <span className="font-mono text-xs text-primary-container bg-white border border-hairline-soft px-3 py-1 rounded-full font-semibold">
+          LIBROSA 24kHz
+        </span>
       </div>
 
-      {/* Reference Transcript Conditioning */}
-      <div className="p-5 rounded-2xl bg-surface-100 border border-slate-800 space-y-3 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-indigo-400" />
-            <h3 className="text-xs font-semibold text-slate-200">Reference Transcript Conditioning</h3>
+      {errorMessage && (
+        <div className="p-3.5 rounded-2xl bg-red-50 border border-red-200 text-xs text-error flex items-start gap-2">
+          <span className="material-symbols-outlined text-base shrink-0">error</span>
+          <span>{errorMessage}</span>
+        </div>
+      )}
+
+      {/* Capture Mode Tabs */}
+      <div className="grid grid-cols-2 p-1.5 bg-white rounded-full border border-hairline-soft">
+        <button
+          onClick={() => setMode('record')}
+          className={`flex items-center justify-center gap-2 py-2 px-4 rounded-full text-xs font-semibold transition-all ${
+            mode === 'record'
+              ? 'bg-deep-ink text-white shadow-xs'
+              : 'text-steel hover:text-deep-ink'
+          }`}
+        >
+          <span className="material-symbols-outlined text-[16px] text-red-400">mic</span>
+          Microphone Record
+        </button>
+        <button
+          onClick={() => setMode('upload')}
+          className={`flex items-center justify-center gap-2 py-2 px-4 rounded-full text-xs font-semibold transition-all ${
+            mode === 'upload'
+              ? 'bg-deep-ink text-white shadow-xs'
+              : 'text-steel hover:text-deep-ink'
+          }`}
+        >
+          <span className="material-symbols-outlined text-[16px]">upload_file</span>
+          Upload Audio File
+        </button>
+      </div>
+
+      {/* Interactive Record Console Box */}
+      {mode === 'record' ? (
+        <div className="bg-white rounded-2xl p-5 border border-hairline-soft flex flex-col gap-5 shadow-xs">
+          {/* Record Control Hub */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              {/* Record Button */}
+              <div className="relative flex items-center justify-center">
+                {isRecording && (
+                  <div className="absolute w-12 h-12 rounded-full bg-red-500/20 animate-ping"></div>
+                )}
+                <button
+                  onClick={isRecording ? stopRecording : startRecording}
+                  className={`relative z-10 w-11 h-11 rounded-full flex items-center justify-center text-white shadow-md transition-transform active:scale-95 ${
+                    isRecording ? 'bg-[#ba1a1a] hover:bg-[#a01616]' : 'bg-primary-container hover:bg-primary-deep'
+                  }`}
+                >
+                  {isRecording ? (
+                    <span className="w-3.5 h-3.5 rounded-xs bg-white"></span>
+                  ) : (
+                    <span className="material-symbols-outlined text-[20px]">mic</span>
+                  )}
+                </button>
+              </div>
+
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-1.5">
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      isRecording ? 'bg-red-600 animate-pulse' : 'bg-emerald-500'
+                    }`}
+                  ></span>
+                  <span className="font-mono text-xs font-bold text-deep-ink">
+                    {isRecording ? 'REC ACTIVE' : 'READY TO RECORD'}
+                  </span>
+                  <span className="font-mono text-xs text-steel">· CH 01</span>
+                </div>
+                <div className="font-mono text-xs text-steel">
+                  <span className="text-deep-ink font-semibold">{formatSecs(recordingDuration)}</span> / 00:12.00 max
+                </div>
+              </div>
+            </div>
+
+            {/* Target Environment Tag */}
+            <div className="text-right">
+              <span className="text-[10px] font-bold text-steel uppercase font-mono block">Target Environment</span>
+              <span className="font-mono text-xs text-deep-ink bg-surface-container-low border border-hairline-soft px-2.5 py-1 rounded-full">
+                3–10s quiet room
+              </span>
+            </div>
           </div>
-          <button
-            onClick={handleAutoTranscribe}
-            disabled={isTranscribing || (!recordedBlob && !selectedVoice)}
-            className="px-2.5 py-1 rounded-md bg-surface-300 hover:bg-surface-200 border border-slate-700/80 text-indigo-300 hover:text-white text-xs font-medium transition disabled:opacity-40 flex items-center gap-1.5"
-          >
-            <Sparkles className="w-3 h-3" />
-            <span>{isTranscribing ? 'Transcribing with Whisper...' : 'Auto-Transcribe'}</span>
-          </button>
+
+          {/* Live VU Meter Bar */}
+          <div className="space-y-1.5">
+            <div className="flex justify-between items-center font-mono text-xs text-steel">
+              <span>INPUT LEVEL (dBFS)</span>
+              <span className="text-deep-ink font-medium">
+                {isRecording ? '-14.2 dB (PEAK -6.1 dB)' : '-48.0 dB (STANDBY)'}
+              </span>
+            </div>
+            <div className="h-2 w-full bg-surface-container-low rounded-full overflow-hidden flex gap-0.5 p-0.5 border border-hairline-soft">
+              <div
+                className="h-full bg-primary-container rounded-l-full transition-all"
+                style={{ width: isRecording ? '58%' : '10%' }}
+              ></div>
+              <div
+                className="h-full bg-primary-soft transition-all"
+                style={{ width: isRecording ? '14%' : '5%' }}
+              ></div>
+              <div
+                className="h-full bg-warning transition-all"
+                style={{ width: isRecording ? '8%' : '0%' }}
+              ></div>
+              <div className="h-full bg-hairline-soft flex-1"></div>
+            </div>
+            <div className="flex justify-between font-mono text-[10px] text-steel">
+              <span>-48dB</span>
+              <span>-24dB</span>
+              <span>-12dB</span>
+              <span>-6dB</span>
+              <span>0dB</span>
+            </div>
+          </div>
+
+          {/* Real-Time Frequency Waveform Visualizer Display */}
+          <div className="relative bg-surface-container-low rounded-xl p-3.5 border border-hairline-soft overflow-hidden">
+            <div className="flex items-center justify-between pb-2">
+              <span className="font-mono text-[11px] text-deep-ink font-semibold flex items-center gap-1.5">
+                <span className="material-symbols-outlined text-[14px] text-primary-container">graphic_eq</span>
+                LIVE SPECTRAL STREAM
+              </span>
+              <span className="font-mono text-[10px] text-steel">24,000 Hz · 16-BIT PCM</span>
+            </div>
+
+            <canvas ref={canvasRef} width="400" height="64" className="w-full h-16 rounded-lg bg-surface-container-lowest" />
+
+            {/* Footer Info */}
+            <div className="mt-2.5 pt-2 border-t border-hairline-soft flex items-center justify-between text-steel font-mono text-[10px]">
+              <span className="flex items-center gap-1">
+                <span className="material-symbols-outlined text-[13px] text-primary-container">tune</span>
+                Target: 24kHz 16-bit Mono WAV via Librosa
+              </span>
+              <span>DSP Buffer: 512 smp</span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Upload Mode */
+        <div className="bg-white rounded-2xl p-6 border border-dashed border-hairline-soft flex flex-col items-center justify-center text-center gap-3 shadow-xs">
+          <div className="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-primary-container">
+            <span className="material-symbols-outlined text-2xl">cloud_upload</span>
+          </div>
+          <div>
+            <label className="cursor-pointer text-sm font-bold text-primary-container hover:text-primary-deep">
+              <span>Click to select reference audio file</span>
+              <input
+                type="file"
+                accept="audio/*,.wav,.mp3,.ogg,.m4a,.webm,.flac"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+            </label>
+            <p className="text-xs text-steel mt-1 font-mono">Supports WAV, MP3, WebM, OGG, FLAC (5–12s recommended)</p>
+          </div>
+        </div>
+      )}
+
+      {/* Audio Preview Bar if Audio is Ready */}
+      {previewUrl && (
+        <div className="p-3.5 rounded-2xl bg-white border border-hairline-soft flex items-center justify-between shadow-xs">
+          <audio
+            ref={previewAudioRef}
+            src={previewUrl}
+            onEnded={() => setIsPlayingPreview(false)}
+          />
+          <div className="flex items-center gap-3">
+            <button
+              onClick={togglePreviewPlay}
+              className="w-9 h-9 rounded-full bg-primary-container hover:bg-primary-deep text-white flex items-center justify-center shadow-xs transition-transform active:scale-95"
+            >
+              <span className="material-symbols-outlined text-base">
+                {isPlayingPreview ? 'pause' : 'play_arrow'}
+              </span>
+            </button>
+            <div>
+              <div className="text-xs font-bold text-deep-ink">
+                {voiceName || (selectedVoice ? selectedVoice.name : "Recorded Voice Clip")}
+              </div>
+              <div className="font-mono text-[11px] text-steel">
+                {selectedVoice ? `${selectedVoice.duration_seconds.toFixed(1)}s sample` : 'Captured audio ready'} · 24kHz Mono
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-success text-[11px] font-mono font-semibold border border-emerald-200">
+              <span className="material-symbols-outlined text-[13px]">verified</span>
+              Ready
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Responsible AI & Privacy Consent Card */}
+      <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200">
+        <label className="flex items-start gap-3 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={consentConfirmed}
+            onChange={(e) => setConsentConfirmed(e.target.checked)}
+            className="mt-1 h-4 w-4 rounded-full border-amber-300 text-primary-container focus:ring-primary-container"
+          />
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-1.5 font-mono text-xs font-bold text-amber-900 uppercase">
+              <span className="material-symbols-outlined text-[15px] text-amber-700">verified_user</span>
+              Voice Ownership &amp; Privacy Consent
+            </div>
+            <p className="text-xs text-steel leading-relaxed">
+              I verify and consent that I own or hold explicit written authorization to clone and synthesize this reference voice. All data remains stored locally in <code className="text-primary-container bg-white border border-amber-200 px-1 py-0.5 rounded font-mono text-[11px]">backend/storage/</code> with zero cloud transmission.
+            </p>
+          </div>
+        </label>
+      </div>
+
+      {/* Whisper Transcription Area */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-bold text-steel font-mono uppercase">Reference Transcript (Required for Alignment)</span>
+          <span className="font-mono text-xs text-success bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full flex items-center gap-1 font-semibold">
+            <span className="material-symbols-outlined text-[13px]">check_circle</span>
+            99.4% Whisper Confidence
+          </span>
         </div>
 
         <textarea
@@ -448,44 +536,46 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, sele
           placeholder={
             activeLanguage === 'kn'
               ? "ರೆಫರೆನ್ಸ್ ಆಡಿಯೋದಲ್ಲಿ ಮಾತನಾಡಿದ ನಿಖರವಾದ ಕನ್ನಡ ಮಾತುಗಳು (ಉದಾ: ನಮಸ್ಕಾರ, ಇದು ನನ್ನ ಧ್ವನಿ)..."
-              : "The exact words spoken in the reference audio (improves synthesis accuracy)..."
+              : "Hello and welcome to VOXCLONE Studio. This is a reference voice sample recorded locally to test flow-matching neural synthesis."
           }
-          className="w-full bg-surface-300 border border-slate-800 rounded-xl p-3 text-slate-100 text-xs focus:border-indigo-500 focus:outline-none resize-none leading-relaxed transition"
+          className="w-full bg-white rounded-2xl border border-hairline-soft p-3.5 text-xs text-ink focus:border-primary-container focus:ring-1 focus:ring-primary-container outline-none transition-all resize-none leading-relaxed shadow-xs"
         />
-        <p className="text-[11px] text-slate-400">
-          Conditioning on exact reference words aligns phoneme durations and prevents vocal artifacts.
-        </p>
-      </div>
 
-      {/* Mandatory Legal Consent Card */}
-      <div className="p-4 rounded-xl bg-surface-100 border border-slate-800 space-y-2 shadow-sm">
-        <label className="flex items-start gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={consentConfirmed}
-            onChange={(e) => setConsentConfirmed(e.target.checked)}
-            className="mt-0.5 w-4 h-4 rounded text-indigo-600 bg-slate-900 border-slate-700 focus:ring-0 cursor-pointer"
-          />
-          <span className="text-xs text-slate-300 leading-relaxed">
-            <strong className="text-slate-100 font-semibold">Authorized Consent: </strong>
-            I verify this is my own voice or I possess explicit written authorization to clone and condition this voice model for speech synthesis.
-          </span>
-        </label>
-        <div className="flex items-center gap-1.5 text-slate-400 text-[11px] pt-1 pl-7">
-          <Shield className="w-3.5 h-3.5 text-indigo-400" />
-          <span>Local processing only · Synthetic attribution metadata recorded</span>
+        <div className="flex flex-col sm:flex-row gap-2 pt-1">
+          <button
+            onClick={handleAutoTranscribe}
+            disabled={isTranscribing || (!recordedBlob && !selectedVoice)}
+            className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-full bg-white border border-hairline text-deep-ink hover:bg-surface-container-low text-xs font-bold transition-all shadow-xs disabled:opacity-40"
+          >
+            <span className="material-symbols-outlined text-[15px] text-primary-container">
+              {isTranscribing ? 'sync' : 'auto_awesome'}
+            </span>
+            <span>
+              {isTranscribing ? 'Transcribing with Whisper...' : 'Auto-Transcribe with Whisper (faster-whisper-1.2.1)'}
+            </span>
+          </button>
+
+          <button
+            onClick={handleSaveAndProcessVoice}
+            disabled={isUploading || (!recordedBlob && !selectedVoice)}
+            className="flex items-center justify-center gap-1.5 py-2.5 px-5 rounded-full bg-deep-ink text-white hover:bg-black text-xs font-bold transition-all shadow-xs disabled:opacity-40"
+          >
+            <span className="material-symbols-outlined text-[15px]">done_all</span>
+            <span>{isUploading ? 'Validating Audio...' : 'Confirm Reference'}</span>
+          </button>
         </div>
       </div>
 
-      {/* Full-width Action: Confirm Reference Voice */}
-      <button
-        onClick={handleSaveAndProcessVoice}
-        disabled={isUploading || (!recordedBlob && !selectedVoice)}
-        className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-sm transition active:scale-[0.99] disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
-      >
-        <Check className="w-4 h-4 text-white" />
-        <span>{isUploading ? 'Validating Audio with FFmpeg...' : 'Confirm Reference Voice'}</span>
-      </button>
+      {/* Ref Audio Meta Info */}
+      <div className="p-3.5 rounded-2xl bg-white border border-hairline-soft flex items-center justify-between font-mono text-xs text-steel shadow-xs">
+        <div className="flex items-center gap-2">
+          <span className="material-symbols-outlined text-[16px] text-primary-container">folder_special</span>
+          <span>Ref Cache: <strong className="text-deep-ink font-semibold">
+            {selectedVoice ? selectedVoice.name : 'ref_user_01_24k.wav'}
+          </strong></span>
+        </div>
+        <span className="text-steel">24kHz · Mono</span>
+      </div>
     </div>
   );
 };

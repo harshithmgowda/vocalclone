@@ -2,83 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  color-scheme: dark;
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    color: #1c1e21;
+    font-family: 'Montserrat', sans-serif;
+  }
 }
 
 ::selection {
-  background: rgba(99, 102, 241, 0.35);
+  background: #0064e0;
   color: #ffffff;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #090a0f;
-  color: #f1f5f9;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  caret-color: #818cf8;
-}
-
-/* Custom restrained modern scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090a0f;
+  background: #f1f4f7;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e2230;
+  background: #ced0d4;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2d3348;
+  background: #5d6c7b;
+}
+
+/* Material Symbols icon helper */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Accessible focus styling */
 :focus-visible {
-  outline: 2px solid #6366f1;
+  outline: 2px solid #0064e0;
   outline-offset: 2px;
-}
-
-/* Range input thumb styling - Physical depth instead of decorative glow */
-input[type="range"] {
-  -webkit-appearance: none;
-  background: transparent;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  height: 14px;
-  width: 14px;
-  border-radius: 9999px;
-  background: #f8fafc;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-  cursor: pointer;
-  margin-top: -5px;
-  border: 1px solid #475569;
-}
-
-input[type="range"]::-moz-range-thumb {
-  height: 14px;
-  width: 14px;
-  border-radius: 9999px;
-  background: #f8fafc;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-  cursor: pointer;
-  border: 1px solid #475569;
-}
-
-/* Restrained structural surface helper */
-.surface-panel {
-  background: #11141d;
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.4);
 }

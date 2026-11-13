@@ -1,0 +1,789 @@
+<!-- Project: 12068531780132422538 Screen: 9ce8e80fef9f49df95c8ed8c1d89209a (VOXCLONE AI — Generation History (Meta Design System)) -->
+<!-- VOXCLONE AI — Generation History (Meta Design System) -->
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "warning": "#f7b928",
+            "error": "#ba1a1a",
+            "slate": "#4b4c4f",
+            "primary-fixed": "#d9e2ff",
+            "ink": "#1c1e21",
+            "deep-ink": "#0a1317",
+            "charcoal": "#444950",
+            "surface-container-low": "#f1f4f7",
+            "surface-container": "#ebeef1",
+            "surface-container-high": "#e5e8eb",
+            "surface-container-highest": "#e0e3e6",
+            "surface-container-lowest": "#ffffff",
+            "hairline": "#ced0d4",
+            "hairline-soft": "#dee3e9",
+            "secondary": "#566065",
+            "primary-container": "#0064e0",
+            "on-primary-container": "#ffffff",
+            "primary": "#004db0",
+            "primary-soft": "#0091ff",
+            "background": "#ffffff",
+            "surface": "#ffffff",
+            "steel": "#5d6c7b",
+            "success": "#31a24c",
+            "selection-blue": "#0143b5",
+            "outline": "#727786",
+            "outline-variant": "#dee3e9"
+          },
+          fontFamily: {
+            sans: ["Montserrat", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          },
+          borderRadius: {
+            '2xl': '1.25rem',
+            '3xl': '1.75rem',
+            'full': '9999px'
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+        color: #1c1e21;
+        font-family: 'Montserrat', sans-serif;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-surface font-sans text-ink antialiased selection:bg-primary-container selection:text-white">
+<!-- TOP APP HEADER -->
+<header class="fixed top-0 left-0 right-0 z-50 h-16 bg-white/95 backdrop-blur-md border-b border-hairline-soft">
+<div class="h-16 w-full px-6 md:px-10 flex items-center justify-between gap-4">
+<div class="flex items-center gap-8 shrink-0">
+<div class="flex items-center gap-3">
+<img alt="VOXCLONE AI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrAEHKYVQ9eehnsqJzttCecyQSIFWHqBH3x-rKD-3eCgcbCxcTQxXEUjuSxzqXb-LreLgpToydvkE2vuVZfPgCs_V6x5dxcbONn9GG7ZTruxB5SR0aVb_v1cgCYozqDKs5P3LulAo9wUh6-ZMWlUv4fvT09gLLnnhUsqcVHp0pUn3XNum3BTfMcWKrVrJ5YlvEhlqKCcMWotHiGizto6wiM8f9bQF0Cgsx2bynVfoIdIZA"/>
+<span class="text-xl font-bold tracking-tight text-deep-ink">VOXCLONE AI</span>
+<span class="hidden xl:inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low border border-hairline-soft text-steel text-xs font-mono font-medium">
+            F5-TTS v1.1.22 · Blackwell sm_120
+          </span>
+</div>
+<nav class="hidden lg:flex items-center gap-2">
+<a class="px-4 py-2 rounded-full bg-primary-container text-white font-medium text-sm transition-all shadow-sm" href="#">Studio</a>
+<a class="px-4 py-2 rounded-full text-steel hover:text-deep-ink hover:bg-surface-container-low transition-all font-medium text-sm" href="#">My Voices</a>
+<a class="px-4 py-2 rounded-full text-steel hover:text-deep-ink hover:bg-surface-container-low transition-all font-medium text-sm" href="#">Generation History</a>
+<a class="px-4 py-2 rounded-full text-steel hover:text-deep-ink hover:bg-surface-container-low transition-all font-medium text-sm" href="#">Telemetry &amp; Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<div class="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-low border border-hairline-soft">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
+</span>
+<span class="font-mono text-xs text-steel">RTX 5050 · 3.8 / 8.0 GB (47%) · CUDA 12.8 · 24kHz</span>
+</div>
+<div class="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-container-low border border-hairline-soft text-steel font-mono text-xs">
+<span class="material-symbols-outlined text-[15px] text-primary-container">verified_user</span>
+<span>Local SQLite · 0 Cloud Telemetry</span>
+</div>
+<div class="flex items-center pl-1">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-hairline-soft" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJo2EC6GOhIqLMrDdsn4BwTwMj_e1P3jm2t5uxHaOGZsWWdvnTR-qmDH3hp5XxyCm3KHq33AZ61sg3V5-CmKeyX7Do7C8Pi0IyOxsbj3_uBZgIXbVjJSD5NCmX7nC9SYhZkGaczPY2Sz5W5ZMzH3UdlO0ClLXxCzKexWGM4UpjDEplq0YpX4YMf-_RuOWirJjc-ZKLkouoze8UZi5cB0FoZYlXLI_R91mhy_oMaa6J"/>
+</div>
+</div>
+</div>
+</header>
+<!-- LEFT ASIDE NAV -->
+<aside class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-hairline-soft z-40 hidden md:flex flex-col py-6">
+<div class="px-6 mb-4 flex items-center justify-between">
+<span class="text-[11px] font-bold tracking-wider uppercase text-steel font-mono">Workspace</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-success text-[10px] font-mono font-semibold border border-emerald-200">
+        ONLINE
+      </span>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full bg-primary-container text-white font-medium text-sm transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined text-[19px]">mic</span>
+<span>Studio Console</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full text-steel hover:bg-surface-container-low hover:text-deep-ink transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined text-[19px]">graphic_eq</span>
+<span>My Voices</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full text-steel hover:bg-surface-container-low hover:text-deep-ink transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined text-[19px]">history</span>
+<span>Generation Log</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full text-steel hover:bg-surface-container-low hover:text-deep-ink transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined text-[19px]">memory</span>
+<span>Hardware &amp; Cache</span>
+</a>
+</nav>
+<!-- Sidebar Bottom Metric -->
+<div class="px-4 mt-auto pt-4">
+<div class="p-3.5 rounded-2xl bg-surface-container-low border border-hairline-soft">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold text-deep-ink font-mono uppercase">NFE Guidance</span>
+<span class="text-xs font-mono font-bold text-primary-container">32 steps</span>
+</div>
+<div class="w-full bg-hairline-soft h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full w-2/3 rounded-full"></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- MAIN APP CONTAINER -->
+<div class="md:pl-64">
+<main class="relative pt-16 bg-white min-h-screen pb-16"><div class="flex flex-col w-full">
+<!-- Interactive Script for Filtering and Waveform Player Preview -->
+<script>
+    function toggleAudioPlayback(btnId, playIconId) {
+      const icon = document.getElementById(playIconId);
+      if (!icon) return;
+      if (icon.innerText === 'play_arrow') {
+        icon.innerText = 'pause';
+      } else {
+        icon.innerText = 'play_arrow';
+      }
+    }
+
+    function toggleSelectAll(masterCheckbox) {
+      const clipCheckboxes = document.querySelectorAll('.clip-checkbox');
+      clipCheckboxes.forEach(cb => cb.checked = masterCheckbox.checked);
+      updateSelectedCounter();
+    }
+
+    function updateSelectedCounter() {
+      const selected = document.querySelectorAll('.clip-checkbox:checked').length;
+      const countLabel = document.getElementById('selected-count-badge');
+      if (countLabel) {
+        countLabel.innerText = selected + ' selected';
+        countLabel.className = selected > 0 
+          ? 'font-mono text-caption-bold text-selection-blue bg-primary-fixed px-space-sm py-space-xxs rounded-full'
+          : 'font-mono text-caption text-steel bg-surface-container-high px-space-sm py-space-xxs rounded-full';
+      }
+    }
+  </script>
+<div class="w-full max-w-7xl mx-auto px-space-xl lg:px-space-xxl py-space-lg flex flex-col gap-space-xl">
+<!-- PAGE HEADER SECTION -->
+<section class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-lg pb-space-sm">
+<div class="flex flex-col gap-space-xs max-w-3xl">
+<div class="flex flex-wrap items-center gap-space-sm">
+<h1 class="font-heading-lg text-heading-lg text-ink font-semibold tracking-tight">Generation History</h1>
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container-high text-deep-ink font-mono text-caption-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-selection-blue"></span>
+            28 Total Clips Synthesized
+          </span>
+<span class="inline-flex items-center gap-1.5 px-space-sm py-0.5 rounded-full bg-surface-container-low text-steel font-mono text-caption">
+<span class="material-symbols-outlined text-[14px] text-steel">hard_drive</span>
+            248.6 MB on local disk
+          </span>
+</div>
+<p class="font-body-md text-body-md text-steel">
+          Comprehensive log of all local F5-TTS neural speech generations with interactive waveforms, telemetry diagnostics, and export controls.
+        </p>
+</div>
+<!-- Header Primary & Ghost Actions -->
+<div class="flex items-center gap-space-sm shrink-0">
+<button class="h-10 px-space-lg rounded-full bg-surface-container-low hover:bg-surface-container-high text-charcoal font-button-md text-button-md transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">delete_sweep</span>
+          Clear Failed / Drafts
+        </button>
+<button class="h-10 px-space-xl rounded-full bg-ink hover:bg-charcoal text-surface-container-lowest font-button-md text-button-md transition-all shadow-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">folder_zip</span>
+          Batch Export All (ZIP)
+        </button>
+</div>
+</section>
+<!-- METRICS & REASSURANCE CARDS (4-Up Meta Style) -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1: Total Audio Generated -->
+<div class="p-space-lg rounded-2xl bg-surface-container-low flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-mono text-caption text-steel uppercase tracking-wider">Audio Rendered</span>
+<span class="material-symbols-outlined text-steel text-[20px]">graphic_eq</span>
+</div>
+<div class="mt-space-md flex flex-col">
+<span class="font-heading-md text-heading-md font-bold text-ink">02h 48m 14s</span>
+<div class="flex items-center gap-1.5 mt-space-xxs">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span class="font-mono text-caption text-slate">Avg RTF 0.36x (Realtime)</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Active GPU Inference -->
+<div class="p-space-lg rounded-2xl bg-surface-container-low flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-mono text-caption text-steel uppercase tracking-wider">Local Acceleration</span>
+<span class="material-symbols-outlined text-selection-blue text-[20px]">memory</span>
+</div>
+<div class="mt-space-md flex flex-col">
+<span class="font-heading-md text-heading-md font-bold text-ink">NVIDIA RTX 5050</span>
+<span class="font-mono text-caption text-slate mt-space-xxs truncate">sm_120 Blackwell · Avg 14.2s / 10s audio</span>
+</div>
+</div>
+<!-- Card 3: Local Storage / On-Device -->
+<div class="p-space-lg rounded-2xl bg-surface-container-low flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-mono text-caption text-steel uppercase tracking-wider">Storage &amp; Privacy</span>
+<span class="material-symbols-outlined text-success text-[20px]">shield</span>
+</div>
+<div class="mt-space-md flex flex-col">
+<span class="font-heading-md text-heading-md font-bold text-ink">28 WAV Files</span>
+<span class="font-mono text-caption text-slate mt-space-xxs">100% On-Device SQLite · 0 Telemetry</span>
+</div>
+</div>
+<!-- Card 4: Success Rate -->
+<div class="p-space-lg rounded-2xl bg-surface-container-low flex flex-col justify-between">
+<div class="flex items-center justify-between">
+<span class="font-mono text-caption text-steel uppercase tracking-wider">Pipeline Reliability</span>
+<span class="material-symbols-outlined text-steel text-[20px]">check_circle</span>
+</div>
+<div class="mt-space-md flex flex-col">
+<div class="flex items-baseline gap-2">
+<span class="font-heading-md text-heading-md font-bold text-ink">99.2%</span>
+<span class="font-mono text-caption text-steel font-medium">(28/29)</span>
+</div>
+<span class="font-mono text-caption text-steel mt-space-xxs truncate">1 OOM exceeded threshold</span>
+</div>
+</div>
+</section>
+<!-- SEARCH & FILTER CONTROLS BAR -->
+<section class="bg-surface-container-low p-space-md rounded-2xl flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Search Input Pill -->
+<div class="relative flex-1 min-w-[280px]">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-steel text-[20px] pointer-events-none">search</span>
+<input class="w-full h-11 pl-10 pr-space-lg rounded-full bg-surface-container-lowest text-ink font-body-sm text-body-sm placeholder:text-steel focus:outline-none focus:ring-2 focus:ring-selection-blue shadow-none transition-all" placeholder="Search clips by voice, transcript snippet, or prompt..." type="text"/>
+</div>
+<!-- Filter Pills -->
+<div class="flex items-center gap-1.5 overflow-x-auto py-1">
+<button class="px-space-md py-1.5 rounded-full bg-ink text-surface-container-lowest font-button-md text-button-md whitespace-nowrap shadow-sm">
+          All Generations (28)
+        </button>
+<button class="px-space-md py-1.5 rounded-full bg-surface-container text-charcoal hover:bg-surface-container-high font-button-md text-button-md whitespace-nowrap transition-colors">
+          Personal Clones (16)
+        </button>
+<button class="px-space-md py-1.5 rounded-full bg-surface-container text-charcoal hover:bg-surface-container-high font-button-md text-button-md whitespace-nowrap transition-colors">
+          Narration &amp; Docs (8)
+        </button>
+<button class="px-space-md py-1.5 rounded-full bg-surface-container text-charcoal hover:bg-surface-container-high font-button-md text-button-md whitespace-nowrap transition-colors">
+          Conversational (4)
+        </button>
+</div>
+<!-- Sort & Options Dropdowns -->
+<div class="flex items-center gap-2 shrink-0">
+<div class="flex items-center gap-2 px-space-md h-10 rounded-full bg-surface-container text-charcoal font-button-md text-button-md cursor-pointer hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[17px] text-steel">swap_vert</span>
+<span>Sort: Most Recent</span>
+</div>
+<div class="hidden sm:flex items-center gap-2 px-space-md h-10 rounded-full bg-surface-container text-charcoal font-button-md text-button-md cursor-pointer hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[17px] text-steel">tune</span>
+<span>24kHz WAV</span>
+</div>
+</div>
+</section>
+<!-- BULK ACTIONS STRIP -->
+<div class="flex items-center justify-between px-space-xs">
+<div class="flex items-center gap-3">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input class="w-4 h-4 rounded text-primary-container focus:ring-selection-blue bg-surface-container-high cursor-pointer" id="master-checkbox" onchange="toggleSelectAll(this)" type="checkbox"/>
+<span class="font-body-sm-bold text-body-sm-bold text-ink">Select All Clips</span>
+</label>
+<span class="font-mono text-caption text-steel bg-surface-container-high px-space-sm py-space-xxs rounded-full" id="selected-count-badge">
+          0 selected
+        </span>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-steel hover:text-deep-ink font-button-md text-button-md flex items-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[18px]">ios_share</span>
+          Export Selected
+        </button>
+</div>
+</div>
+<!-- GENERATION HISTORY LIST (Detailed audio card entries) -->
+<div class="flex flex-col gap-space-lg">
+<!-- CLIP 1 (FEATURED / MOST RECENT) -->
+<div class="p-space-xl rounded-3xl bg-surface-container-low shadow-sm hover:shadow-md transition-shadow flex flex-col gap-space-md">
+<!-- Top Metadata Row -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<input class="clip-checkbox w-4 h-4 rounded text-primary-container focus:ring-selection-blue bg-surface-container-high cursor-pointer" onchange="updateSelectedCounter()" type="checkbox"/>
+<span class="font-mono text-caption-bold text-selection-blue bg-primary-fixed px-space-sm py-0.5 rounded-full">
+              #VX-2025-0891
+            </span>
+<div class="flex items-center gap-2">
+<span class="font-subtitle-lg text-subtitle-lg text-deep-ink">Alex Thorne</span>
+<span class="font-mono text-caption text-steel">(Personal Main · FlowMatch v1.1)</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1 px- space-xs py-0.5 rounded-full bg-emerald-100 text-success font-mono text-caption-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+              Synthesis Success · 16s
+            </span>
+<span class="font-mono text-caption text-steel ml-1">Today, 14:22:08</span>
+</div>
+</div>
+<!-- Prompt Transcript Box -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest text-ink font-body-md text-body-md leading-relaxed">
+          “Welcome to the next generation of local speech synthesis. By combining F5-TTS non-autoregressive flow matching with the Vocos mel-vocoder on our NVIDIA RTX 5050 GPU, speech is generated with natural prosody and zero cloud latency.”
+        </div>
+<!-- Interactive Waveform Player Bar -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest flex flex-col sm:flex-row items-center gap-space-md">
+<!-- Play / Pause Cobalt Button -->
+<button class="w-12 h-12 rounded-full bg-primary-container hover:bg-primary-deep text-surface-container-lowest flex items-center justify-center shrink-0 transition-transform active:scale-95 shadow-sm" id="play-btn-1" onclick="toggleAudioPlayback('play-btn-1', 'icon-1')">
+<span class="material-symbols-outlined text-[26px]" id="icon-1">play_arrow</span>
+</button>
+<!-- Waveform Visualizer & Scrubber -->
+<div class="flex-1 w-full flex flex-col gap-1.5">
+<div class="flex items-center justify-between font-mono text-caption text-steel">
+<span class="font-mono text-caption-bold text-selection-blue">00:05.80</span>
+<span>00:14.28</span>
+</div>
+<!-- SVG Interactive Audio Waveform with Scrubber Head -->
+<div class="relative w-full h-10 flex items-center cursor-pointer group">
+<!-- Background / Played Bars -->
+<svg class="w-full h-8 overflow-visible" preserveaspectratio="none" viewbox="0 0 400 32">
+<!-- Played portion (cobalt) -->
+<g fill="#0064e0">
+<rect height="12" rx="1.5" width="3" x="0" y="10"></rect>
+<rect height="20" rx="1.5" width="3" x="6" y="6"></rect>
+<rect height="26" rx="1.5" width="3" x="12" y="3"></rect>
+<rect height="16" rx="1.5" width="3" x="18" y="8"></rect>
+<rect height="28" rx="1.5" width="3" x="24" y="2"></rect>
+<rect height="22" rx="1.5" width="3" x="30" y="5"></rect>
+<rect height="8" rx="1.5" width="3" x="36" y="12"></rect>
+<rect height="24" rx="1.5" width="3" x="42" y="4"></rect>
+<rect height="30" rx="1.5" width="3" x="48" y="1"></rect>
+<rect height="14" rx="1.5" width="3" x="54" y="9"></rect>
+<rect height="4" rx="1.5" width="3" x="60" y="14"></rect>
+<rect height="28" rx="1.5" width="3" x="66" y="2"></rect>
+<rect height="18" rx="1.5" width="3" x="72" y="7"></rect>
+<rect height="24" rx="1.5" width="3" x="78" y="4"></rect>
+<rect height="10" rx="1.5" width="3" x="84" y="11"></rect>
+<rect height="30" rx="1.5" width="3" x="90" y="1"></rect>
+<rect height="20" rx="1.5" width="3" x="96" y="6"></rect>
+<rect height="6" rx="1.5" width="3" x="102" y="13"></rect>
+<rect height="28" rx="1.5" width="3" x="108" y="2"></rect>
+<rect height="22" rx="1.5" width="3" x="114" y="5"></rect>
+<rect height="16" rx="1.5" width="3" x="120" y="8"></rect>
+<rect height="24" rx="1.5" width="3" x="126" y="4"></rect>
+<rect height="32" rx="1.5" width="3" x="132" y="0"></rect>
+<rect height="14" rx="1.5" width="3" x="138" y="9"></rect>
+<rect height="8" rx="1.5" width="3" x="144" y="12"></rect>
+<rect height="26" rx="1.5" width="3" x="150" y="3"></rect>
+<rect height="20" rx="1.5" width="3" x="156" y="6"></rect>
+<rect height="30" rx="1.5" width="3" x="162" y="1"></rect>
+</g>
+<!-- Remaining Unplayed portion (neutral hairline) -->
+<g fill="#ced0d4">
+<rect height="12" rx="1.5" width="3" x="168" y="10"></rect>
+<rect height="22" rx="1.5" width="3" x="174" y="5"></rect>
+<rect height="16" rx="1.5" width="3" x="180" y="8"></rect>
+<rect height="26" rx="1.5" width="3" x="186" y="3"></rect>
+<rect height="8" rx="1.5" width="3" x="192" y="12"></rect>
+<rect height="30" rx="1.5" width="3" x="198" y="1"></rect>
+<rect height="18" rx="1.5" width="3" x="204" y="7"></rect>
+<rect height="24" rx="1.5" width="3" x="210" y="4"></rect>
+<rect height="4" rx="1.5" width="3" x="216" y="14"></rect>
+<rect height="28" rx="1.5" width="3" x="222" y="2"></rect>
+<rect height="20" rx="1.5" width="3" x="228" y="6"></rect>
+<rect height="14" rx="1.5" width="3" x="234" y="9"></rect>
+<rect height="26" rx="1.5" width="3" x="240" y="3"></rect>
+<rect height="30" rx="1.5" width="3" x="246" y="1"></rect>
+<rect height="10" rx="1.5" width="3" x="252" y="11"></rect>
+<rect height="22" rx="1.5" width="3" x="258" y="5"></rect>
+<rect height="16" rx="1.5" width="3" x="264" y="8"></rect>
+<rect height="6" rx="1.5" width="3" x="270" y="13"></rect>
+<rect height="28" rx="1.5" width="3" x="276" y="2"></rect>
+<rect height="18" rx="1.5" width="3" x="282" y="7"></rect>
+<rect height="24" rx="1.5" width="3" x="288" y="4"></rect>
+<rect height="12" rx="1.5" width="3" x="294" y="10"></rect>
+<rect height="28" rx="1.5" width="3" x="300" y="2"></rect>
+<rect height="20" rx="1.5" width="3" x="306" y="6"></rect>
+<rect height="30" rx="1.5" width="3" x="312" y="1"></rect>
+<rect height="14" rx="1.5" width="3" x="318" y="9"></rect>
+<rect height="8" rx="1.5" width="3" x="324" y="12"></rect>
+<rect height="26" rx="1.5" width="3" x="330" y="3"></rect>
+<rect height="18" rx="1.5" width="3" x="336" y="7"></rect>
+<rect height="24" rx="1.5" width="3" x="342" y="4"></rect>
+<rect height="4" rx="1.5" width="3" x="348" y="14"></rect>
+<rect height="28" rx="1.5" width="3" x="354" y="2"></rect>
+<rect height="20" rx="1.5" width="3" x="360" y="6"></rect>
+<rect height="16" rx="1.5" width="3" x="366" y="8"></rect>
+<rect height="30" rx="1.5" width="3" x="372" y="1"></rect>
+<rect height="10" rx="1.5" width="3" x="378" y="11"></rect>
+<rect height="22" rx="1.5" width="3" x="384" y="5"></rect>
+<rect height="14" rx="1.5" width="3" x="390" y="9"></rect>
+<rect height="6" rx="1.5" width="3" x="396" y="13"></rect>
+</g>
+</svg>
+<!-- Scrubber Needle -->
+<div class="absolute left-[41.5%] top-0 bottom-0 w-0.5 bg-ink shadow"></div>
+</div>
+</div>
+<!-- Volume & Speed Utility Controls -->
+<div class="flex items-center gap-2 shrink-0">
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high text-steel flex items-center justify-center">
+<span class="material-symbols-outlined text-[17px]">volume_up</span>
+</button>
+<span class="font-mono text-caption text-steel">1.0x</span>
+</div>
+</div>
+<!-- Telemetry Details & Action Buttons Bar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md pt-space-xs">
+<!-- Generation Telemetry Tokens -->
+<div class="flex flex-wrap items-center gap-space-sm font-mono text-caption text-steel">
+<span class="bg-surface-container px-2 py-0.5 rounded-full">684 KB WAV (PCM 16-bit)</span>
+<span class="bg-surface-container px-2 py-0.5 rounded-full">RTF: 0.38x</span>
+<span class="bg-surface-container px-2 py-0.5 rounded-full">24 NFE Steps</span>
+<span class="bg-surface-container px-2 py-0.5 rounded-full">CFG: 2.2</span>
+<span class="bg-surface-container px-2 py-0.5 rounded-full">Vocos 24kHz</span>
+</div>
+<!-- Actions: Primary Cobalt & Pill Helpers -->
+<div class="flex items-center gap-2 shrink-0">
+<button class="h-9 px-space-md rounded-full bg-surface-container text-ink hover:bg-surface-container-high font-button-md text-button-md transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+              Prompt
+            </button>
+<button class="h-9 px-space-md rounded-full bg-surface-container text-ink hover:bg-surface-container-high font-button-md text-button-md transition-colors flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">tune</span>
+              Reuse in Studio
+            </button>
+<button class="h-9 px-space-lg rounded-full bg-primary-container hover:bg-primary-deep text-surface-container-lowest font-button-md text-button-md transition-all shadow-sm flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px]">download</span>
+              Download WAV
+            </button>
+<button class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high text-error flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- CLIP 2: SARAH LIN -->
+<div class="p-space-lg rounded-3xl bg-surface-container-low shadow-sm hover:shadow-md transition-shadow flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<input class="clip-checkbox w-4 h-4 rounded text-primary-container focus:ring-selection-blue bg-surface-container-high cursor-pointer" onchange="updateSelectedCounter()" type="checkbox"/>
+<span class="font-mono text-caption-bold text-steel bg-surface-container px-space-sm py-0.5 rounded-full">
+              #VX-2025-0890
+            </span>
+<div class="flex items-center gap-2">
+<span class="font-subtitle-md text-subtitle-md font-bold text-deep-ink">Sarah Lin</span>
+<span class="font-mono text-caption text-steel">— Technical Narration</span>
+</div>
+</div>
+<span class="font-mono text-caption text-steel">Today, 11:05:40</span>
+</div>
+<p class="font-body-md text-body-md text-ink line-clamp-2">
+          “Non-autoregressive flow-matching algorithms converge significantly faster than standard diffusion ODE steps while preserving fine phonetic micro-pitch contours.”
+        </p>
+<!-- Compact Waveform Bar -->
+<div class="flex items-center gap-space-md bg-surface-container-lowest p-space-sm rounded-2xl">
+<button class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high text-deep-ink flex items-center justify-center shrink-0" id="play-btn-2" onclick="toggleAudioPlayback('play-btn-2', 'icon-2')">
+<span class="material-symbols-outlined text-[20px]" id="icon-2">play_arrow</span>
+</button>
+<div class="flex-1 h-6 flex items-center gap-1 overflow-hidden opacity-75">
+<span class="h-3 w-1 bg-selection-blue rounded-full"></span>
+<span class="h-5 w-1 bg-selection-blue rounded-full"></span>
+<span class="h-6 w-1 bg-selection-blue rounded-full"></span>
+<span class="h-2 w-1 bg-selection-blue rounded-full"></span>
+<span class="h-4 w-1 bg-selection-blue rounded-full"></span>
+<span class="h-5 w-1 bg-selection-blue rounded-full"></span>
+<span class="h-3 w-1 bg-hairline rounded-full"></span>
+<span class="h-6 w-1 bg-hairline rounded-full"></span>
+<span class="h-4 w-1 bg-hairline rounded-full"></span>
+<span class="h-2 w-1 bg-hairline rounded-full"></span>
+<span class="h-5 w-1 bg-hairline rounded-full"></span>
+<span class="h-4 w-1 bg-hairline rounded-full"></span>
+<span class="h-6 w-1 bg-hairline rounded-full"></span>
+<span class="h-3 w-1 bg-hairline rounded-full"></span>
+<span class="h-5 w-1 bg-hairline rounded-full"></span>
+<span class="h-2 w-1 bg-hairline rounded-full"></span>
+<span class="h-4 w-1 bg-hairline rounded-full"></span>
+<span class="h-6 w-1 bg-hairline rounded-full"></span>
+<span class="h-3 w-1 bg-hairline rounded-full"></span>
+</div>
+<div class="font-mono text-caption text-steel shrink-0">
+            00:22.50 · 1.08 MB
+          </div>
+</div>
+<!-- Telemetry & Secondary Actions -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2 font-mono text-caption text-steel">
+<span>RTF: 0.34x</span>
+<span>·</span>
+<span>28 NFE</span>
+<span>·</span>
+<span>2.5 CFG</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-8 px-space-md rounded-full bg-surface-container text-ink hover:bg-surface-container-high font-button-md text-caption-bold transition-colors">
+              Re-synthesize
+            </button>
+<button class="h-8 px-space-md rounded-full bg-surface-container text-ink hover:bg-surface-container-high font-button-md text-caption-bold transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">download</span>
+              Download WAV
+            </button>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high text-steel hover:text-error flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- CLIP 3: MARCUS VANCE -->
+<div class="p-space-lg rounded-3xl bg-surface-container-low shadow-sm hover:shadow-md transition-shadow flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<input class="clip-checkbox w-4 h-4 rounded text-primary-container focus:ring-selection-blue bg-surface-container-high cursor-pointer" onchange="updateSelectedCounter()" type="checkbox"/>
+<span class="font-mono text-caption-bold text-steel bg-surface-container px-space-sm py-0.5 rounded-full">
+              #VX-2025-0889
+            </span>
+<div class="flex items-center gap-2">
+<span class="font-subtitle-md text-subtitle-md font-bold text-deep-ink">Marcus Vance</span>
+<span class="font-mono text-caption text-steel">— Deep Documentary</span>
+</div>
+</div>
+<span class="font-mono text-caption text-steel">Yesterday, 19:44:12</span>
+</div>
+<p class="font-body-md text-body-md text-ink line-clamp-2">
+          “Deep in the sub-arctic archipelago, acoustic signatures travel uninterrupted across glacial fjords, recorded here for environmental acoustics modeling.”
+        </p>
+<!-- Compact Waveform Bar -->
+<div class="flex items-center gap-space-md bg-surface-container-lowest p-space-sm rounded-2xl">
+<button class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high text-deep-ink flex items-center justify-center shrink-0" id="play-btn-3" onclick="toggleAudioPlayback('play-btn-3', 'icon-3')">
+<span class="material-symbols-outlined text-[20px]" id="icon-3">play_arrow</span>
+</button>
+<div class="flex-1 h-6 flex items-center gap-1 overflow-hidden opacity-75">
+<span class="h-2 w-1 bg-selection-blue rounded-full"></span>
+<span class="h-4 w-1 bg-selection-blue rounded-full"></span>
+<span class="h-5 w-1 bg-selection-blue rounded-full"></span>
+<span class="h-6 w-1 bg-selection-blue rounded-full"></span>
+<span class="h-3 w-1 bg-hairline rounded-full"></span>
+<span class="h-5 w-1 bg-hairline rounded-full"></span>
+<span class="h-4 w-1 bg-hairline rounded-full"></span>
+<span class="h-2 w-1 bg-hairline rounded-full"></span>
+<span class="h-6 w-1 bg-hairline rounded-full"></span>
+<span class="h-3 w-1 bg-hairline rounded-full"></span>
+<span class="h-5 w-1 bg-hairline rounded-full"></span>
+<span class="h-4 w-1 bg-hairline rounded-full"></span>
+</div>
+<div class="font-mono text-caption text-steel shrink-0">
+            00:31.10 · 1.49 MB
+          </div>
+</div>
+<!-- Telemetry & Secondary Actions -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2 font-mono text-caption text-steel">
+<span>RTF: 0.39x</span>
+<span>·</span>
+<span>32 NFE</span>
+<span>·</span>
+<span>2.8 CFG</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-8 px-space-md rounded-full bg-surface-container text-ink hover:bg-surface-container-high font-button-md text-caption-bold transition-colors">
+              Reuse Settings
+            </button>
+<button class="h-8 px-space-md rounded-full bg-surface-container text-ink hover:bg-surface-container-high font-button-md text-caption-bold transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">download</span>
+              Download WAV
+            </button>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high text-steel hover:text-error flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- CLIP 4: ELENA ROSTOVA -->
+<div class="p-space-lg rounded-3xl bg-surface-container-low shadow-sm hover:shadow-md transition-shadow flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<input class="clip-checkbox w-4 h-4 rounded text-primary-container focus:ring-selection-blue bg-surface-container-high cursor-pointer" onchange="updateSelectedCounter()" type="checkbox"/>
+<span class="font-mono text-caption-bold text-steel bg-surface-container px-space-sm py-0.5 rounded-full">
+              #VX-2025-0888
+            </span>
+<div class="flex items-center gap-2">
+<span class="font-subtitle-md text-subtitle-md font-bold text-deep-ink">Elena Rostova</span>
+<span class="font-mono text-caption text-steel">— Conversational AI</span>
+</div>
+</div>
+<span class="font-mono text-caption text-steel">Yesterday, 16:15:30</span>
+</div>
+<p class="font-body-md text-body-md text-ink line-clamp-2">
+          “Hey! Just wanted to let you know your local checkpoint training finished with zero gradient clipping. Ready whenever you are.”
+        </p>
+<!-- Compact Waveform Bar -->
+<div class="flex items-center gap-space-md bg-surface-container-lowest p-space-sm rounded-2xl">
+<button class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high text-deep-ink flex items-center justify-center shrink-0" id="play-btn-4" onclick="toggleAudioPlayback('play-btn-4', 'icon-4')">
+<span class="material-symbols-outlined text-[20px]" id="icon-4">play_arrow</span>
+</button>
+<div class="flex-1 h-6 flex items-center gap-1 overflow-hidden opacity-75">
+<span class="h-3 w-1 bg-hairline rounded-full"></span>
+<span class="h-6 w-1 bg-hairline rounded-full"></span>
+<span class="h-4 w-1 bg-hairline rounded-full"></span>
+<span class="h-2 w-1 bg-hairline rounded-full"></span>
+<span class="h-5 w-1 bg-hairline rounded-full"></span>
+<span class="h-4 w-1 bg-hairline rounded-full"></span>
+<span class="h-6 w-1 bg-hairline rounded-full"></span>
+<span class="h-3 w-1 bg-hairline rounded-full"></span>
+</div>
+<div class="font-mono text-caption text-steel shrink-0">
+            00:09.45 · 453 KB
+          </div>
+</div>
+<!-- Telemetry & Secondary Actions -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2 font-mono text-caption text-steel">
+<span>RTF: 0.31x</span>
+<span>·</span>
+<span>22 NFE</span>
+<span>·</span>
+<span>2.0 CFG</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-8 px-space-md rounded-full bg-surface-container text-ink hover:bg-surface-container-high font-button-md text-caption-bold transition-colors">
+              Reuse Settings
+            </button>
+<button class="h-8 px-space-md rounded-full bg-surface-container text-ink hover:bg-surface-container-high font-button-md text-caption-bold transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">download</span>
+              Download WAV
+            </button>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high text-steel hover:text-error flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- CLIP 5: DAVID STERLING -->
+<div class="p-space-lg rounded-3xl bg-surface-container-low shadow-sm hover:shadow-md transition-shadow flex flex-col gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<input class="clip-checkbox w-4 h-4 rounded text-primary-container focus:ring-selection-blue bg-surface-container-high cursor-pointer" onchange="updateSelectedCounter()" type="checkbox"/>
+<span class="font-mono text-caption-bold text-steel bg-surface-container px-space-sm py-0.5 rounded-full">
+              #VX-2025-0887
+            </span>
+<div class="flex items-center gap-2">
+<span class="font-subtitle-md text-subtitle-md font-bold text-deep-ink">David Sterling</span>
+<span class="font-mono text-caption text-steel">— Product Video Host</span>
+</div>
+</div>
+<span class="font-mono text-caption text-steel">3 days ago, 09:12:05</span>
+</div>
+<p class="font-body-md text-body-md text-ink line-clamp-2">
+          “Introducing the next generation of precision wearable audio. Designed for absolute acoustic comfort and zero audio latency.”
+        </p>
+<!-- Compact Waveform Bar -->
+<div class="flex items-center gap-space-md bg-surface-container-lowest p-space-sm rounded-2xl">
+<button class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high text-deep-ink flex items-center justify-center shrink-0" id="play-btn-5" onclick="toggleAudioPlayback('play-btn-5', 'icon-5')">
+<span class="material-symbols-outlined text-[20px]" id="icon-5">play_arrow</span>
+</button>
+<div class="flex-1 h-6 flex items-center gap-1 overflow-hidden opacity-75">
+<span class="h-4 w-1 bg-hairline rounded-full"></span>
+<span class="h-2 w-1 bg-hairline rounded-full"></span>
+<span class="h-5 w-1 bg-hairline rounded-full"></span>
+<span class="h-3 w-1 bg-hairline rounded-full"></span>
+<span class="h-6 w-1 bg-hairline rounded-full"></span>
+<span class="h-4 w-1 bg-hairline rounded-full"></span>
+<span class="h-2 w-1 bg-hairline rounded-full"></span>
+</div>
+<div class="font-mono text-caption text-steel shrink-0">
+            00:18.70 · 897 KB
+          </div>
+</div>
+<!-- Telemetry & Secondary Actions -->
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<div class="flex items-center gap-2 font-mono text-caption text-steel">
+<span>RTF: 0.36x</span>
+<span>·</span>
+<span>26 NFE</span>
+<span>·</span>
+<span>2.3 CFG</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="h-8 px-space-md rounded-full bg-surface-container text-ink hover:bg-surface-container-high font-button-md text-caption-bold transition-colors">
+              Reuse Settings
+            </button>
+<button class="h-8 px-space-md rounded-full bg-surface-container text-ink hover:bg-surface-container-high font-button-md text-caption-bold transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">download</span>
+              Download WAV
+            </button>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high text-steel hover:text-error flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- PAGINATION & HARDWARE FOOTER -->
+<section class="flex flex-col sm:flex-row items-center justify-between gap-space-md pt-space-md">
+<span class="font-mono text-caption text-steel">
+        Showing 1–5 of 28 clips
+      </span>
+<!-- Pagination Pill Controls -->
+<div class="flex items-center gap-1.5">
+<button class="h-9 px-space-md rounded-full bg-surface-container text-steel hover:bg-surface-container-high font-button-md text-caption-bold transition-colors">
+          Previous
+        </button>
+<button class="w-9 h-9 rounded-full bg-ink text-surface-container-lowest font-button-md text-caption-bold shadow-sm">
+          1
+        </button>
+<button class="w-9 h-9 rounded-full bg-surface-container text-charcoal hover:bg-surface-container-high font-button-md text-caption-bold transition-colors">
+          2
+        </button>
+<button class="w-9 h-9 rounded-full bg-surface-container text-charcoal hover:bg-surface-container-high font-button-md text-caption-bold transition-colors">
+          3
+        </button>
+<button class="h-9 px-space-md rounded-full bg-surface-container text-charcoal hover:bg-surface-container-high font-button-md text-caption-bold transition-colors">
+          Next
+        </button>
+</div>
+</section>
+<!-- BOTTOM HARDWARE SUMMARY & SQLITE DIAGNOSTIC STRIP -->
+<div class="p-space-md rounded-2xl bg-surface-container-low text-steel font-mono text-caption flex flex-wrap items-center justify-between gap-2">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+<span>Local disk space allocated: 248.6 MB / 500 GB</span>
+</div>
+<div class="flex items-center gap-3">
+<span>SQLite db: storage/voxclone.db</span>
+<span>·</span>
+<span class="text-selection-blue">CUDA Stream 0 Active</span>
+</div>
+</div>
+</div>
+</div></main>
+</div>
+</body></html>  chage the ui to this 
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-11-13T18:17:39+05:30.
+
+The user's current state is as follows:
+Active Document: c:\Users\Harshith\OneDrive\Desktop\voicelab\README.md (LANGUAGE_UNSPECIFIED)
+Cursor is on line: 1
+Other open documents:
+- c:\Users\Harshith\OneDrive\Desktop\voicelab\voxclone-ai\backend\app\models\schemas.py (LANGUAGE_UNSPECIFIED)
+- c:\Users\Harshith\OneDrive\Desktop\voicelab\voxclone-ai\backend\app\routes\voices.py (LANGUAGE_UNSPECIFIED)
+- c:\Users\Harshith\OneDrive\Desktop\voicelab\voxclone-ai\backend\app\services\f5_tts_service.py (LANGUAGE_UNSPECIFIED)
+- c:\Users\Harshith\OneDrive\Desktop\voicelab\voxclone-ai\backend\app\services\kannada_service.py (LANGUAGE_UNSPECIFIED)
+- c:\Users\Harshith\OneDrive\Desktop\voicelab\voxclone-ai\frontend\src\utils\kannada.ts (LANGUAGE_UNSPECIFIED)
+</ADDITIONAL_METADATA>

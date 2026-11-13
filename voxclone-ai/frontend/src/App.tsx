@@ -8,7 +8,6 @@ import { SettingsPage } from './components/SettingsPage';
 import { AboutPage } from './components/AboutPage';
 import { HealthStatus, VoiceRecord } from './types';
 import { api } from './services/api';
-import { AlertCircle } from 'lucide-react';
 
 export function App() {
   const [currentPage, setCurrentPage] = useState('studio');
@@ -32,7 +31,7 @@ export function App() {
       const list = await api.getVoices();
       setVoices(list);
     } catch (e) {
-      console.warn("Could not load voices", e);
+      console.warn('Could not load voices', e);
     }
   };
 
@@ -48,14 +47,20 @@ export function App() {
   }, []);
 
   const handleVoiceSelectedFromLibrary = (voice: VoiceRecord) => {
-    // Put selected voice at the front so studio picks it up
     setVoices((prev) => [voice, ...prev.filter((v) => v.id !== voice.id)]);
     setCurrentPage('studio');
   };
 
   return (
-    <div className="flex h-screen bg-background text-slate-100 overflow-hidden font-sans">
-      {/* Navigation Sidebar */}
+    <div className="min-h-screen bg-white font-sans text-ink antialiased selection:bg-primary-container selection:text-white">
+      {/* Top Header */}
+      <Header
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+        health={health}
+      />
+
+      {/* Left Navigation Sidebar */}
       <Sidebar
         currentPage={currentPage}
         onPageChange={setCurrentPage}
@@ -63,48 +68,43 @@ export function App() {
         voiceCount={voices.length}
       />
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-screen overflow-hidden">
-        <Header currentPage={currentPage} health={health} />
-
-        {/* Backend Disconnected Notice */}
+      {/* Main Container */}
+      <div className="md:pl-64 pt-16 min-h-screen bg-white">
+        {/* Backend Error Banner */}
         {backendError && (
-          <div className="bg-rose-950/80 border-b border-rose-800/80 px-8 py-2.5 text-xs text-rose-300 flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <AlertCircle className="w-4 h-4 text-rose-400" />
-              <span>{backendError}</span>
+          <div className="bg-red-50 border-b border-red-200 px-6 md:px-10 py-3 text-xs text-error flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-[18px]">error</span>
+              <span className="font-medium">{backendError}</span>
             </div>
             <button
               onClick={() => {
                 fetchHealth();
                 fetchVoices();
               }}
-              className="px-2.5 py-1 rounded bg-rose-900/60 hover:bg-rose-800 text-[11px] font-medium transition"
+              className="px-3 py-1 rounded-full bg-white border border-red-300 text-error font-medium hover:bg-red-100 transition"
             >
               Retry Connection
             </button>
           </div>
         )}
 
-        {/* Dynamic Page View */}
-        <main className="flex-1 overflow-y-auto p-8 bg-surface-300/30">
-          <div className="max-w-7xl mx-auto">
-            {currentPage === 'studio' && (
-              <StudioPage voices={voices} onVoiceCreated={fetchVoices} />
-            )}
-            {currentPage === 'voices' && (
-              <MyVoicesPage
-                voices={voices}
-                onVoiceSelected={handleVoiceSelectedFromLibrary}
-                onRefresh={fetchVoices}
-              />
-            )}
-            {currentPage === 'history' && <HistoryPage />}
-            {currentPage === 'settings' && (
-              <SettingsPage health={health} onRefreshHealth={fetchHealth} />
-            )}
-            {currentPage === 'about' && <AboutPage />}
-          </div>
+        <main className="p-6 md:p-10 max-w-7xl mx-auto pb-24">
+          {currentPage === 'studio' && (
+            <StudioPage voices={voices} onVoiceCreated={fetchVoices} />
+          )}
+          {currentPage === 'voices' && (
+            <MyVoicesPage
+              voices={voices}
+              onVoiceSelected={handleVoiceSelectedFromLibrary}
+              onRefresh={fetchVoices}
+            />
+          )}
+          {currentPage === 'history' && <HistoryPage />}
+          {currentPage === 'settings' && (
+            <SettingsPage health={health} onRefreshHealth={fetchHealth} />
+          )}
+          {currentPage === 'about' && <AboutPage />}
         </main>
       </div>
     </div>

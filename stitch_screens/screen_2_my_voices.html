@@ -1,0 +1,909 @@
+<!-- Project: 12068531780132422538 Screen: 9b40b19a97ec48169b1076f4cf2f7e97 (VOXCLONE AI — My Voices Library (Meta Design System)) -->
+<!-- VOXCLONE AI — My Voices Library (Meta Design System) -->
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "warning": "#f7b928",
+            "error": "#ba1a1a",
+            "slate": "#4b4c4f",
+            "primary-fixed": "#d9e2ff",
+            "ink": "#1c1e21",
+            "deep-ink": "#0a1317",
+            "charcoal": "#444950",
+            "surface-container-low": "#f1f4f7",
+            "surface-container": "#ebeef1",
+            "surface-container-high": "#e5e8eb",
+            "surface-container-highest": "#e0e3e6",
+            "surface-container-lowest": "#ffffff",
+            "hairline": "#ced0d4",
+            "hairline-soft": "#dee3e9",
+            "secondary": "#566065",
+            "primary-container": "#0064e0",
+            "on-primary-container": "#ffffff",
+            "primary": "#004db0",
+            "primary-soft": "#0091ff",
+            "background": "#ffffff",
+            "surface": "#ffffff",
+            "steel": "#5d6c7b",
+            "success": "#31a24c",
+            "selection-blue": "#0143b5",
+            "outline": "#727786",
+            "outline-variant": "#dee3e9"
+          },
+          fontFamily: {
+            sans: ["Montserrat", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"]
+          },
+          borderRadius: {
+            '2xl': '1.25rem',
+            '3xl': '1.75rem',
+            'full': '9999px'
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+        color: #1c1e21;
+        font-family: 'Montserrat', sans-serif;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-surface font-sans text-ink antialiased selection:bg-primary-container selection:text-white">
+<!-- TOP APP HEADER -->
+<header class="fixed top-0 left-0 right-0 z-50 h-16 bg-white/95 backdrop-blur-md border-b border-hairline-soft">
+<div class="h-16 w-full px-6 md:px-10 flex items-center justify-between gap-4">
+<div class="flex items-center gap-8 shrink-0">
+<div class="flex items-center gap-3">
+<img alt="VOXCLONE AI Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrAEHKYVQ9eehnsqJzttCecyQSIFWHqBH3x-rKD-3eCgcbCxcTQxXEUjuSxzqXb-LreLgpToydvkE2vuVZfPgCs_V6x5dxcbONn9GG7ZTruxB5SR0aVb_v1cgCYozqDKs5P3LulAo9wUh6-ZMWlUv4fvT09gLLnnhUsqcVHp0pUn3XNum3BTfMcWKrVrJ5YlvEhlqKCcMWotHiGizto6wiM8f9bQF0Cgsx2bynVfoIdIZA"/>
+<span class="text-xl font-bold tracking-tight text-deep-ink">VOXCLONE AI</span>
+<span class="hidden xl:inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low border border-hairline-soft text-steel text-xs font-mono font-medium">
+            F5-TTS v1.1.22 · Blackwell sm_120
+          </span>
+</div>
+<nav class="hidden lg:flex items-center gap-2">
+<a class="px-4 py-2 rounded-full bg-primary-container text-white font-medium text-sm transition-all shadow-sm" href="#">Studio</a>
+<a class="px-4 py-2 rounded-full text-steel hover:text-deep-ink hover:bg-surface-container-low transition-all font-medium text-sm" href="#">My Voices</a>
+<a class="px-4 py-2 rounded-full text-steel hover:text-deep-ink hover:bg-surface-container-low transition-all font-medium text-sm" href="#">Generation History</a>
+<a class="px-4 py-2 rounded-full text-steel hover:text-deep-ink hover:bg-surface-container-low transition-all font-medium text-sm" href="#">Telemetry &amp; Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-3 shrink-0">
+<div class="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-low border border-hairline-soft">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
+</span>
+<span class="font-mono text-xs text-steel">RTX 5050 · 3.8 / 8.0 GB (47%) · CUDA 12.8 · 24kHz</span>
+</div>
+<div class="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-container-low border border-hairline-soft text-steel font-mono text-xs">
+<span class="material-symbols-outlined text-[15px] text-primary-container">verified_user</span>
+<span>Local SQLite · 0 Cloud Telemetry</span>
+</div>
+<div class="flex items-center pl-1">
+<img alt="Profile" class="w-8 h-8 rounded-full object-cover ring-2 ring-hairline-soft" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJo2EC6GOhIqLMrDdsn4BwTwMj_e1P3jm2t5uxHaOGZsWWdvnTR-qmDH3hp5XxyCm3KHq33AZ61sg3V5-CmKeyX7Do7C8Pi0IyOxsbj3_uBZgIXbVjJSD5NCmX7nC9SYhZkGaczPY2Sz5W5ZMzH3UdlO0ClLXxCzKexWGM4UpjDEplq0YpX4YMf-_RuOWirJjc-ZKLkouoze8UZi5cB0FoZYlXLI_R91mhy_oMaa6J"/>
+</div>
+</div>
+</div>
+</header>
+<!-- LEFT ASIDE NAV -->
+<aside class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-hairline-soft z-40 hidden md:flex flex-col py-6">
+<div class="px-6 mb-4 flex items-center justify-between">
+<span class="text-[11px] font-bold tracking-wider uppercase text-steel font-mono">Workspace</span>
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-success text-[10px] font-mono font-semibold border border-emerald-200">
+        ONLINE
+      </span>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full bg-primary-container text-white font-medium text-sm transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined text-[19px]">mic</span>
+<span>Studio Console</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full text-steel hover:bg-surface-container-low hover:text-deep-ink transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined text-[19px]">graphic_eq</span>
+<span>My Voices</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full text-steel hover:bg-surface-container-low hover:text-deep-ink transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined text-[19px]">history</span>
+<span>Generation Log</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2.5 rounded-full text-steel hover:bg-surface-container-low hover:text-deep-ink transition-all font-medium text-sm" href="#">
+<span class="material-symbols-outlined text-[19px]">memory</span>
+<span>Hardware &amp; Cache</span>
+</a>
+</nav>
+<!-- Sidebar Bottom Metric -->
+<div class="px-4 mt-auto pt-4">
+<div class="p-3.5 rounded-2xl bg-surface-container-low border border-hairline-soft">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold text-deep-ink font-mono uppercase">NFE Guidance</span>
+<span class="text-xs font-mono font-bold text-primary-container">32 steps</span>
+</div>
+<div class="w-full bg-hairline-soft h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary-container h-full w-2/3 rounded-full"></div>
+</div>
+</div>
+</div>
+</aside>
+<!-- MAIN APP CONTAINER -->
+<div class="md:pl-64">
+<main class="relative pt-16 bg-white min-h-screen pb-16"><div class="flex flex-col w-full">
+<!-- Interactive Active State Script & DOM Helpers -->
+<script>
+    function toggleAudioPlay(btn) {
+      const icon = btn.querySelector('.play-icon');
+      const isPlaying = icon.textContent.trim() === 'pause';
+      document.querySelectorAll('.audio-play-btn .play-icon').forEach(el => el.textContent = 'play_arrow');
+      if (!isPlaying) {
+        icon.textContent = 'pause';
+      }
+    }
+
+    function selectVoiceForTesting(name, tag, nfe, sampleRate) {
+      const nameEl = document.getElementById('tester-selected-voice');
+      const metaEl = document.getElementById('tester-selected-meta');
+      if (nameEl) nameEl.textContent = name;
+      if (metaEl) metaEl.textContent = `${tag} · NFE ${nfe} · ${sampleRate}`;
+    }
+
+    function simulateQuickSynthesis() {
+      const btn = document.getElementById('quick-synth-btn');
+      const origText = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span> Generating 2.1s audio...';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.innerHTML = '<span class="material-symbols-outlined text-base text-success">check_circle</span> Synthesized (0.42s RTF)';
+        setTimeout(() => {
+          btn.innerHTML = origText;
+          btn.disabled = false;
+        }, 2200);
+      }, 1200);
+    }
+  </script>
+<div class="w-full max-w-[1280px] mx-auto px-6 md:px-10 py-8 space-y-8">
+<!-- Top Action / Context Header -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-2">
+<div class="space-y-2 max-w-3xl">
+<div class="flex flex-wrap items-center gap-2.5">
+<h1 class="font-heading-lg text-heading-lg text-on-background tracking-tight">Voice Library</h1>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container text-steel font-caption-bold text-caption tracking-normal">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+            6 Saved Voices · 24kHz Reference Profiles
+          </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-primary-fixed text-primary-deep font-mono text-caption">
+            DiT CFG 2.2-2.5
+          </span>
+</div>
+<p class="font-subtitle-md text-subtitle-md text-secondary leading-relaxed">
+          Manage enrolled reference profiles, inspect high-confidence Whisper transcripts, test neural audio previews, and configure F5-TTS inference parameters locally.
+        </p>
+</div>
+<!-- Header Primary Action Buttons -->
+<div class="flex items-center gap-3 shrink-0">
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-button-md text-button-md transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-lg text-steel">file_upload</span>
+<span>Import WAV/MP3</span>
+</button>
+<button class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary-container hover:bg-primary-deep text-on-primary font-button-md text-button-md transition-all shadow-sm" type="button">
+<span class="material-symbols-outlined text-lg">add</span>
+<span>Enroll New Voice</span>
+</button>
+</div>
+</div>
+<!-- Reassurance / Quick Telemetry Row (Meta card-icon-feature style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- Stat 1 -->
+<div class="p-6 rounded-3xl bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between">
+<div class="flex items-start justify-between mb-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary-container shadow-sm">
+<span class="material-symbols-outlined text-xl">record_voice_over</span>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container-lowest text-success font-caption-bold text-caption shadow-sm">
+            100% Consent
+          </span>
+</div>
+<div>
+<span class="font-caption text-caption uppercase text-steel tracking-wider block mb-1">Enrolled Profiles</span>
+<div class="font-heading-sm text-heading-sm text-on-background">6 Active Clones</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+            Zero cloud verification dependency. Local safety hash verified.
+          </p>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="p-6 rounded-3xl bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between">
+<div class="flex items-start justify-between mb-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary-container shadow-sm">
+<span class="material-symbols-outlined text-xl">sd_storage</span>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-surface-container-lowest text-steel font-caption-bold text-caption font-mono shadow-sm">
+            SQLite + FLAC
+          </span>
+</div>
+<div>
+<span class="font-caption text-caption uppercase text-steel tracking-wider block mb-1">Local Storage Footprint</span>
+<div class="font-heading-sm text-heading-sm text-on-background">14.8 MB Stored</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+            Zero telemetry sent externally. Local disk /models/profiles/
+          </p>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="p-6 rounded-3xl bg-surface-container-low hover:bg-surface-container transition-all flex flex-col justify-between">
+<div class="flex items-start justify-between mb-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary-container shadow-sm">
+<span class="material-symbols-outlined text-xl">speed</span>
+</div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-emerald-50 text-success font-caption-bold text-caption shadow-sm">
+            0.18 RTF Blackwell
+          </span>
+</div>
+<div>
+<span class="font-caption text-caption uppercase text-steel tracking-wider block mb-1">Synthesizer Core</span>
+<div class="font-heading-sm text-heading-sm text-on-background">F5-TTS DiT + Vocos</div>
+<p class="font-body-sm text-body-sm text-secondary mt-1">
+            24kHz high-fidelity neural vocoder running on RTX 5050 sm_120.
+          </p>
+</div>
+</div>
+</div>
+<!-- Filter & Search Toolbar -->
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 p-2 bg-surface-container-low rounded-3xl">
+<!-- Search Input -->
+<div class="relative flex-1 min-w-[280px]">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-steel text-xl">search</span>
+<input class="w-full pl-11 pr-4 py-3 rounded-full bg-surface-container-lowest text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-focus-blue placeholder:text-stone shadow-sm" placeholder="Search voices by name, tag, or transcript..." type="text"/>
+</div>
+<!-- Segmented Category Filters -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0 px-1">
+<button class="shrink-0 px-4 py-2 rounded-full bg-ink text-white font-button-md text-button-md shadow-sm" type="button">
+          All Voices (6)
+        </button>
+<button class="shrink-0 px-4 py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-button-md text-button-md transition-all" type="button">
+          Personal Voices (3)
+        </button>
+<button class="shrink-0 px-4 py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-button-md text-button-md transition-all" type="button">
+          Character &amp; Narrator (2)
+        </button>
+<button class="shrink-0 px-4 py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-button-md text-button-md transition-all" type="button">
+          Imported Audio (1)
+        </button>
+</div>
+<!-- Sort Selection -->
+<div class="flex items-center gap-2 pl-2 pr-1 shrink-0">
+<span class="font-caption text-caption text-steel font-mono hidden xl:inline">SORT:</span>
+<div class="relative inline-block">
+<button class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-lowest text-on-surface font-body-sm text-body-sm shadow-sm hover:bg-surface-container-low transition-all" type="button">
+<span>Recently Added</span>
+<span class="material-symbols-outlined text-sm text-steel">keyboard_arrow_down</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Voice Profiles Grid (2 Columns Desktop, 1 Column Mobile) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- CARD 1: Alex Thorne (Personal Main - Featured Default) -->
+<div class="p-7 rounded-3xl bg-surface-container-lowest hover:shadow-md transition-all relative flex flex-col justify-between group">
+<div>
+<!-- Header and Badges -->
+<div class="flex items-start justify-between gap-4 mb-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary font-body-md-bold text-body-md-bold shadow-sm">
+                AT
+              </div>
+<div>
+<div class="flex items-center gap-2">
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Alex Thorne (Personal Main)</h3>
+<span class="material-symbols-outlined text-primary-container text-base" title="Verified Safe Clone">verified</span>
+</div>
+<p class="font-caption text-caption text-steel font-mono mt-0.5">
+                  Recorded 2 days ago · 8.4s reference sample
+                </p>
+</div>
+</div>
+<!-- More Utility Menu Button -->
+<button class="w-9 h-9 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-steel transition-all" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+<!-- Tags Strip -->
+<div class="flex flex-wrap items-center gap-2 mb-5">
+<span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-white font-caption-bold text-caption">
+<span class="material-symbols-outlined text-xs">star</span>
+              Default Voice
+            </span>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low text-steel font-caption-bold text-caption">
+              Verified Consent
+            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-surface-container text-steel font-mono text-caption">
+              24kHz Mono
+            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-50 text-success font-caption-bold text-caption">
+              99.4% Whisper Score
+            </span>
+</div>
+<!-- Audio Waveform Player Bar -->
+<div class="p-3.5 rounded-2xl bg-surface-container-low flex items-center gap-3.5 mb-5">
+<button class="audio-play-btn w-10 h-10 rounded-full bg-primary-container hover:bg-primary-deep text-white flex items-center justify-center shrink-0 shadow-sm transition-all" onclick="toggleAudioPlay(this)" type="button">
+<span class="material-symbols-outlined play-icon text-xl leading-none">play_arrow</span>
+</button>
+<!-- Vector Waveform -->
+<div class="flex-1 flex items-center gap-[3px] h-8 px-2 overflow-hidden">
+<span class="w-1 bg-primary-container rounded-full h-3"></span>
+<span class="w-1 bg-primary-container rounded-full h-5"></span>
+<span class="w-1 bg-primary-container rounded-full h-7"></span>
+<span class="w-1 bg-primary-container rounded-full h-4"></span>
+<span class="w-1 bg-primary-container rounded-full h-6"></span>
+<span class="w-1 bg-primary-container rounded-full h-8"></span>
+<span class="w-1 bg-primary-container rounded-full h-5"></span>
+<span class="w-1 bg-primary-container rounded-full h-3"></span>
+<span class="w-1 bg-primary-container rounded-full h-7"></span>
+<span class="w-1 bg-steel/40 rounded-full h-6"></span>
+<span class="w-1 bg-steel/30 rounded-full h-4"></span>
+<span class="w-1 bg-steel/30 rounded-full h-5"></span>
+<span class="w-1 bg-steel/30 rounded-full h-7"></span>
+<span class="w-1 bg-steel/30 rounded-full h-4"></span>
+<span class="w-1 bg-steel/30 rounded-full h-2"></span>
+<span class="w-1 bg-steel/30 rounded-full h-6"></span>
+<span class="w-1 bg-steel/30 rounded-full h-3"></span>
+</div>
+<div class="shrink-0 font-mono text-caption text-steel font-medium">
+              00:08.4
+            </div>
+</div>
+<!-- Transcript Block -->
+<div class="mb-5 p-3.5 rounded-2xl bg-surface-container/60">
+<span class="font-caption-bold text-caption text-steel uppercase tracking-wider block mb-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">subtitles</span>
+              Reference Transcript
+            </span>
+<p class="font-body-sm text-body-sm text-charcoal italic leading-relaxed">
+              “Hello and welcome to VOXCLONE Studio. This is a reference voice sample recorded locally to test flow-matching neural synthesis.”
+            </p>
+</div>
+<!-- Model Tuning Parameters Matrix -->
+<div class="grid grid-cols-3 gap-2 py-3 px-4 rounded-2xl bg-surface-container-low mb-6 font-mono text-caption text-steel">
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">NFE Steps</span>
+<span class="text-on-surface font-semibold">24 Iterations</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">Prosody Pace</span>
+<span class="text-on-surface font-semibold">1.05x Speed</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">CFG Strength</span>
+<span class="text-on-surface font-semibold">2.2 Guidance</span>
+</div>
+</div>
+</div>
+<!-- Action Pill Buttons -->
+<div class="flex items-center gap-2.5 pt-2">
+<button class="flex-1 py-2.5 px-4 rounded-full bg-primary-container hover:bg-primary-deep text-white font-button-md text-button-md transition-all shadow-sm text-center" type="button">
+            Use in Studio
+          </button>
+<button class="py-2.5 px-4 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-button-md text-button-md transition-all text-center" onclick="selectVoiceForTesting('Alex Thorne (Personal Main)', 'Default Personal', '24', '24kHz Vocos')" type="button">
+            Quick Test
+          </button>
+<button class="py-2.5 px-3.5 rounded-full bg-surface-container-low hover:bg-surface-container text-steel transition-all" title="Edit Transcript" type="button">
+<span class="material-symbols-outlined text-lg leading-none">edit_note</span>
+</button>
+</div>
+</div>
+<!-- CARD 2: Sarah Lin — Technical Narration -->
+<div class="p-7 rounded-3xl bg-surface-container-lowest hover:shadow-md transition-all relative flex flex-col justify-between group">
+<div>
+<!-- Header and Badges -->
+<div class="flex items-start justify-between gap-4 mb-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-steel font-body-md-bold text-body-md-bold shadow-sm">
+                SL
+              </div>
+<div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Sarah Lin — Technical Narration</h3>
+<p class="font-caption text-caption text-steel font-mono mt-0.5">
+                  Uploaded 5 days ago · 10.2s reference WAV
+                </p>
+</div>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-steel transition-all" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+<!-- Tags Strip -->
+<div class="flex flex-wrap items-center gap-2 mb-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low text-steel font-caption-bold text-caption">
+              Studio Voice
+            </span>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low text-steel font-caption-bold text-caption">
+              Fast Pitch
+            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-surface-container text-steel font-mono text-caption">
+              Vocos Resample
+            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-50 text-success font-caption-bold text-caption">
+              98.8% Whisper
+            </span>
+</div>
+<!-- Audio Waveform Player Bar -->
+<div class="p-3.5 rounded-2xl bg-surface-container-low flex items-center gap-3.5 mb-5">
+<button class="audio-play-btn w-10 h-10 rounded-full bg-on-background hover:bg-slate text-white flex items-center justify-center shrink-0 shadow-sm transition-all" onclick="toggleAudioPlay(this)" type="button">
+<span class="material-symbols-outlined play-icon text-xl leading-none">play_arrow</span>
+</button>
+<!-- Vector Waveform -->
+<div class="flex-1 flex items-center gap-[3px] h-8 px-2 overflow-hidden">
+<span class="w-1 bg-steel/40 rounded-full h-4"></span>
+<span class="w-1 bg-steel/40 rounded-full h-7"></span>
+<span class="w-1 bg-steel/40 rounded-full h-5"></span>
+<span class="w-1 bg-steel/40 rounded-full h-8"></span>
+<span class="w-1 bg-steel/40 rounded-full h-3"></span>
+<span class="w-1 bg-steel/40 rounded-full h-6"></span>
+<span class="w-1 bg-steel/40 rounded-full h-4"></span>
+<span class="w-1 bg-steel/40 rounded-full h-7"></span>
+<span class="w-1 bg-steel/30 rounded-full h-2"></span>
+<span class="w-1 bg-steel/30 rounded-full h-5"></span>
+<span class="w-1 bg-steel/30 rounded-full h-8"></span>
+<span class="w-1 bg-steel/30 rounded-full h-6"></span>
+<span class="w-1 bg-steel/30 rounded-full h-3"></span>
+<span class="w-1 bg-steel/30 rounded-full h-5"></span>
+<span class="w-1 bg-steel/30 rounded-full h-4"></span>
+</div>
+<div class="shrink-0 font-mono text-caption text-steel font-medium">
+              00:10.2
+            </div>
+</div>
+<!-- Transcript Block -->
+<div class="mb-5 p-3.5 rounded-2xl bg-surface-container/60">
+<span class="font-caption-bold text-caption text-steel uppercase tracking-wider block mb-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">subtitles</span>
+              Reference Transcript
+            </span>
+<p class="font-body-sm text-body-sm text-charcoal italic leading-relaxed">
+              “Let's examine how non-autoregressive flow-matching algorithms converge significantly faster than standard diffusion ODE steps...”
+            </p>
+</div>
+<!-- Model Tuning Matrix -->
+<div class="grid grid-cols-3 gap-2 py-3 px-4 rounded-2xl bg-surface-container-low mb-6 font-mono text-caption text-steel">
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">NFE Steps</span>
+<span class="text-on-surface font-semibold">28 Iterations</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">Prosody Pace</span>
+<span class="text-on-surface font-semibold">0.98x Speed</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">CFG Strength</span>
+<span class="text-on-surface font-semibold">2.5 Guidance</span>
+</div>
+</div>
+</div>
+<!-- Action Pill Buttons -->
+<div class="flex items-center gap-2.5 pt-2">
+<button class="flex-1 py-2.5 px-4 rounded-full bg-primary-container hover:bg-primary-deep text-white font-button-md text-button-md transition-all shadow-sm text-center" type="button">
+            Use in Studio
+          </button>
+<button class="py-2.5 px-4 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-button-md text-button-md transition-all text-center" onclick="selectVoiceForTesting('Sarah Lin — Technical Narration', 'Studio Voice', '28', 'Vocos 24kHz')" type="button">
+            Quick Test
+          </button>
+<button class="py-2.5 px-3.5 rounded-full bg-surface-container-low hover:bg-surface-container text-steel transition-all" title="Edit Transcript" type="button">
+<span class="material-symbols-outlined text-lg leading-none">edit_note</span>
+</button>
+</div>
+</div>
+<!-- CARD 3: Marcus Vance — Deep Documentary -->
+<div class="p-7 rounded-3xl bg-surface-container-lowest hover:shadow-md transition-all relative flex flex-col justify-between group">
+<div>
+<div class="flex items-start justify-between gap-4 mb-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface font-body-md-bold text-body-md-bold shadow-sm">
+                MV
+              </div>
+<div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Marcus Vance — Deep Documentary</h3>
+<p class="font-caption text-caption text-steel font-mono mt-0.5">
+                  Recorded 1 week ago · 9.1s sample
+                </p>
+</div>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-steel transition-all" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+<div class="flex flex-wrap items-center gap-2 mb-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low text-steel font-caption-bold text-caption">
+              Audiobook / Narrative
+            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-surface-container text-steel font-mono text-caption">
+              24kHz Mono
+            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-50 text-success font-caption-bold text-caption">
+              99.1% Whisper
+            </span>
+</div>
+<div class="p-3.5 rounded-2xl bg-surface-container-low flex items-center gap-3.5 mb-5">
+<button class="audio-play-btn w-10 h-10 rounded-full bg-on-background hover:bg-slate text-white flex items-center justify-center shrink-0 shadow-sm transition-all" onclick="toggleAudioPlay(this)" type="button">
+<span class="material-symbols-outlined play-icon text-xl leading-none">play_arrow</span>
+</button>
+<div class="flex-1 flex items-center gap-[3px] h-8 px-2 overflow-hidden">
+<span class="w-1 bg-steel/40 rounded-full h-6"></span>
+<span class="w-1 bg-steel/40 rounded-full h-8"></span>
+<span class="w-1 bg-steel/40 rounded-full h-5"></span>
+<span class="w-1 bg-steel/40 rounded-full h-7"></span>
+<span class="w-1 bg-steel/40 rounded-full h-8"></span>
+<span class="w-1 bg-steel/40 rounded-full h-6"></span>
+<span class="w-1 bg-steel/30 rounded-full h-5"></span>
+<span class="w-1 bg-steel/30 rounded-full h-3"></span>
+<span class="w-1 bg-steel/30 rounded-full h-4"></span>
+<span class="w-1 bg-steel/30 rounded-full h-6"></span>
+</div>
+<div class="shrink-0 font-mono text-caption text-steel font-medium">00:09.1</div>
+</div>
+<div class="mb-5 p-3.5 rounded-2xl bg-surface-container/60">
+<span class="font-caption-bold text-caption text-steel uppercase tracking-wider block mb-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">subtitles</span>
+              Reference Transcript
+            </span>
+<p class="font-body-sm text-body-sm text-charcoal italic leading-relaxed">
+              “In the quiet stillness of the northern archipelago, the wind carries stories whispered across generations of seafaring pioneers.”
+            </p>
+</div>
+<div class="grid grid-cols-3 gap-2 py-3 px-4 rounded-2xl bg-surface-container-low mb-6 font-mono text-caption text-steel">
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">NFE Steps</span>
+<span class="text-on-surface font-semibold">32 Iterations</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">Prosody Pace</span>
+<span class="text-on-surface font-semibold">0.92x Speed</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">CFG Strength</span>
+<span class="text-on-surface font-semibold">2.8 Guidance</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2.5 pt-2">
+<button class="flex-1 py-2.5 px-4 rounded-full bg-primary-container hover:bg-primary-deep text-white font-button-md text-button-md transition-all shadow-sm text-center" type="button">
+            Use in Studio
+          </button>
+<button class="py-2.5 px-4 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-button-md text-button-md transition-all text-center" onclick="selectVoiceForTesting('Marcus Vance — Deep Documentary', 'Narrative Bass', '32', '24kHz Mono')" type="button">
+            Quick Test
+          </button>
+<button class="py-2.5 px-3.5 rounded-full bg-surface-container-low hover:bg-surface-container text-steel transition-all" type="button">
+<span class="material-symbols-outlined text-lg leading-none">edit_note</span>
+</button>
+</div>
+</div>
+<!-- CARD 4: Elena Rostova — Conversational AI -->
+<div class="p-7 rounded-3xl bg-surface-container-lowest hover:shadow-md transition-all relative flex flex-col justify-between group">
+<div>
+<div class="flex items-start justify-between gap-4 mb-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary font-body-md-bold text-body-md-bold shadow-sm">
+                ER
+              </div>
+<div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Elena Rostova — Conversational AI</h3>
+<p class="font-caption text-caption text-steel font-mono mt-0.5">
+                  Recorded 2 weeks ago · 6.8s sample
+                </p>
+</div>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-steel transition-all" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+<div class="flex flex-wrap items-center gap-2 mb-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low text-steel font-caption-bold text-caption">
+              Conversational
+            </span>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low text-steel font-caption-bold text-caption">
+              High Clarity
+            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-50 text-success font-caption-bold text-caption">
+              97.9% Whisper
+            </span>
+</div>
+<div class="p-3.5 rounded-2xl bg-surface-container-low flex items-center gap-3.5 mb-5">
+<button class="audio-play-btn w-10 h-10 rounded-full bg-on-background hover:bg-slate text-white flex items-center justify-center shrink-0 shadow-sm transition-all" onclick="toggleAudioPlay(this)" type="button">
+<span class="material-symbols-outlined play-icon text-xl leading-none">play_arrow</span>
+</button>
+<div class="flex-1 flex items-center gap-[3px] h-8 px-2 overflow-hidden">
+<span class="w-1 bg-steel/40 rounded-full h-3"></span>
+<span class="w-1 bg-steel/40 rounded-full h-6"></span>
+<span class="w-1 bg-steel/40 rounded-full h-8"></span>
+<span class="w-1 bg-steel/40 rounded-full h-5"></span>
+<span class="w-1 bg-steel/30 rounded-full h-4"></span>
+<span class="w-1 bg-steel/30 rounded-full h-7"></span>
+<span class="w-1 bg-steel/30 rounded-full h-3"></span>
+<span class="w-1 bg-steel/30 rounded-full h-5"></span>
+</div>
+<div class="shrink-0 font-mono text-caption text-steel font-medium">00:06.8</div>
+</div>
+<div class="mb-5 p-3.5 rounded-2xl bg-surface-container/60">
+<span class="font-caption-bold text-caption text-steel uppercase tracking-wider block mb-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">subtitles</span>
+              Reference Transcript
+            </span>
+<p class="font-body-sm text-body-sm text-charcoal italic leading-relaxed">
+              “Hey there! I can definitely help answer your technical setup questions or review your local model checkpoints whenever you're ready.”
+            </p>
+</div>
+<div class="grid grid-cols-3 gap-2 py-3 px-4 rounded-2xl bg-surface-container-low mb-6 font-mono text-caption text-steel">
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">NFE Steps</span>
+<span class="text-on-surface font-semibold">22 Iterations</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">Prosody Pace</span>
+<span class="text-on-surface font-semibold">1.10x Speed</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">CFG Strength</span>
+<span class="text-on-surface font-semibold">2.0 Guidance</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2.5 pt-2">
+<button class="flex-1 py-2.5 px-4 rounded-full bg-primary-container hover:bg-primary-deep text-white font-button-md text-button-md transition-all shadow-sm text-center" type="button">
+            Use in Studio
+          </button>
+<button class="py-2.5 px-4 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-button-md text-button-md transition-all text-center" onclick="selectVoiceForTesting('Elena Rostova — Conversational AI', 'Conversational', '22', '24kHz Mono')" type="button">
+            Quick Test
+          </button>
+<button class="py-2.5 px-3.5 rounded-full bg-surface-container-low hover:bg-surface-container text-steel transition-all" type="button">
+<span class="material-symbols-outlined text-lg leading-none">edit_note</span>
+</button>
+</div>
+</div>
+<!-- CARD 5: David Sterling — Product Video Host -->
+<div class="p-7 rounded-3xl bg-surface-container-lowest hover:shadow-md transition-all relative flex flex-col justify-between group">
+<div>
+<div class="flex items-start justify-between gap-4 mb-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-charcoal font-body-md-bold text-body-md-bold shadow-sm">
+                DS
+              </div>
+<div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">David Sterling — Product Video Host</h3>
+<p class="font-caption text-caption text-steel font-mono mt-0.5">
+                  Uploaded 3 weeks ago · 7.5s sample
+                </p>
+</div>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-steel transition-all" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+<div class="flex flex-wrap items-center gap-2 mb-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low text-steel font-caption-bold text-caption">
+              Commercial Voice
+            </span>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low text-steel font-caption-bold text-caption">
+              Dynamic Range
+            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-50 text-success font-caption-bold text-caption">
+              99.0% Whisper
+            </span>
+</div>
+<div class="p-3.5 rounded-2xl bg-surface-container-low flex items-center gap-3.5 mb-5">
+<button class="audio-play-btn w-10 h-10 rounded-full bg-on-background hover:bg-slate text-white flex items-center justify-center shrink-0 shadow-sm transition-all" onclick="toggleAudioPlay(this)" type="button">
+<span class="material-symbols-outlined play-icon text-xl leading-none">play_arrow</span>
+</button>
+<div class="flex-1 flex items-center gap-[3px] h-8 px-2 overflow-hidden">
+<span class="w-1 bg-steel/40 rounded-full h-4"></span>
+<span class="w-1 bg-steel/40 rounded-full h-7"></span>
+<span class="w-1 bg-steel/40 rounded-full h-6"></span>
+<span class="w-1 bg-steel/40 rounded-full h-8"></span>
+<span class="w-1 bg-steel/30 rounded-full h-5"></span>
+<span class="w-1 bg-steel/30 rounded-full h-3"></span>
+<span class="w-1 bg-steel/30 rounded-full h-6"></span>
+</div>
+<div class="shrink-0 font-mono text-caption text-steel font-medium">00:07.5</div>
+</div>
+<div class="mb-5 p-3.5 rounded-2xl bg-surface-container/60">
+<span class="font-caption-bold text-caption text-steel uppercase tracking-wider block mb-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">subtitles</span>
+              Reference Transcript
+            </span>
+<p class="font-body-sm text-body-sm text-charcoal italic leading-relaxed">
+              “Introducing the next generation of precision wearable audio. Designed for absolute acoustic comfort and zero latency.”
+            </p>
+</div>
+<div class="grid grid-cols-3 gap-2 py-3 px-4 rounded-2xl bg-surface-container-low mb-6 font-mono text-caption text-steel">
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">NFE Steps</span>
+<span class="text-on-surface font-semibold">26 Iterations</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">Prosody Pace</span>
+<span class="text-on-surface font-semibold">1.02x Speed</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">CFG Strength</span>
+<span class="text-on-surface font-semibold">2.3 Guidance</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2.5 pt-2">
+<button class="flex-1 py-2.5 px-4 rounded-full bg-primary-container hover:bg-primary-deep text-white font-button-md text-button-md transition-all shadow-sm text-center" type="button">
+            Use in Studio
+          </button>
+<button class="py-2.5 px-4 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-button-md text-button-md transition-all text-center" onclick="selectVoiceForTesting('David Sterling — Product Video Host', 'Commercial Voice', '26', '24kHz Vocos')" type="button">
+            Quick Test
+          </button>
+<button class="py-2.5 px-3.5 rounded-full bg-surface-container-low hover:bg-surface-container text-steel transition-all" type="button">
+<span class="material-symbols-outlined text-lg leading-none">edit_note</span>
+</button>
+</div>
+</div>
+<!-- CARD 6: Narrator Neutral (Librosa Trimmed) -->
+<div class="p-7 rounded-3xl bg-surface-container-lowest hover:shadow-md transition-all relative flex flex-col justify-between group">
+<div>
+<div class="flex items-start justify-between gap-4 mb-4">
+<div class="flex items-center gap-3.5">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-steel font-body-md-bold text-body-md-bold shadow-sm">
+                NN
+              </div>
+<div>
+<h3 class="font-body-md-bold text-body-md-bold text-on-surface">Narrator Neutral (Librosa Trimmed)</h3>
+<p class="font-caption text-caption text-steel font-mono mt-0.5">
+                  Recorded 1 month ago · 5.2s sample
+                </p>
+</div>
+</div>
+<button class="w-9 h-9 rounded-full bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-steel transition-all" type="button">
+<span class="material-symbols-outlined text-base">more_horiz</span>
+</button>
+</div>
+<div class="flex flex-wrap items-center gap-2 mb-5">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low text-steel font-caption-bold text-caption">
+              Reference Baseline
+            </span>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low text-steel font-caption-bold text-caption">
+              Clean Room
+            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-50 text-success font-caption-bold text-caption">
+              99.6% Whisper
+            </span>
+</div>
+<div class="p-3.5 rounded-2xl bg-surface-container-low flex items-center gap-3.5 mb-5">
+<button class="audio-play-btn w-10 h-10 rounded-full bg-on-background hover:bg-slate text-white flex items-center justify-center shrink-0 shadow-sm transition-all" onclick="toggleAudioPlay(this)" type="button">
+<span class="material-symbols-outlined play-icon text-xl leading-none">play_arrow</span>
+</button>
+<div class="flex-1 flex items-center gap-[3px] h-8 px-2 overflow-hidden">
+<span class="w-1 bg-steel/40 rounded-full h-5"></span>
+<span class="w-1 bg-steel/40 rounded-full h-8"></span>
+<span class="w-1 bg-steel/40 rounded-full h-6"></span>
+<span class="w-1 bg-steel/40 rounded-full h-4"></span>
+<span class="w-1 bg-steel/30 rounded-full h-3"></span>
+<span class="w-1 bg-steel/30 rounded-full h-6"></span>
+<span class="w-1 bg-steel/30 rounded-full h-5"></span>
+</div>
+<div class="shrink-0 font-mono text-caption text-steel font-medium">00:05.2</div>
+</div>
+<div class="mb-5 p-3.5 rounded-2xl bg-surface-container/60">
+<span class="font-caption-bold text-caption text-steel uppercase tracking-wider block mb-1 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm">subtitles</span>
+              Reference Transcript
+            </span>
+<p class="font-body-sm text-body-sm text-charcoal italic leading-relaxed">
+              “The quick brown fox jumps over the lazy dog in high clarity studio acoustic conditions.”
+            </p>
+</div>
+<div class="grid grid-cols-3 gap-2 py-3 px-4 rounded-2xl bg-surface-container-low mb-6 font-mono text-caption text-steel">
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">NFE Steps</span>
+<span class="text-on-surface font-semibold">18 Iterations</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">Prosody Pace</span>
+<span class="text-on-surface font-semibold">1.00x Speed</span>
+</div>
+<div>
+<span class="text-steel block text-[10px] uppercase font-sans font-bold">CFG Strength</span>
+<span class="text-on-surface font-semibold">2.0 Guidance</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2.5 pt-2">
+<button class="flex-1 py-2.5 px-4 rounded-full bg-primary-container hover:bg-primary-deep text-white font-button-md text-button-md transition-all shadow-sm text-center" type="button">
+            Use in Studio
+          </button>
+<button class="py-2.5 px-4 rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface font-button-md text-button-md transition-all text-center" onclick="selectVoiceForTesting('Narrator Neutral (Librosa Trimmed)', 'Clean Room Reference', '18', '24kHz Baseline')" type="button">
+            Quick Test
+          </button>
+<button class="py-2.5 px-3.5 rounded-full bg-surface-container-low hover:bg-surface-container text-steel transition-all" type="button">
+<span class="material-symbols-outlined text-lg leading-none">edit_note</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Integrated Quick Voice Tester Drawer / Bottom Inspection Deck -->
+<div class="mt-8 p-6 md:p-8 rounded-3xl bg-surface-container-low shadow-sm">
+<div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-xl">graphic_eq</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h2 class="font-subtitle-lg text-subtitle-lg text-on-background">Quick Timbre &amp; Prosody Verification</h2>
+<span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-success font-caption-bold text-caption">Local Engine Ready</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">
+              Directly synthesize a short test sentence to verify phoneme quality before launching a full studio project.
+            </p>
+</div>
+</div>
+<!-- Target Voice Profile Indicator -->
+<div class="flex items-center gap-3 px-4 py-2 rounded-full bg-surface-container-lowest shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+<div class="font-mono text-caption text-charcoal">
+            Target: <span class="font-bold text-on-background" id="tester-selected-voice">Alex Thorne (Personal Main)</span>
+<span class="text-steel ml-1.5" id="tester-selected-meta">(NFE 24 · 24kHz Vocos)</span>
+</div>
+</div>
+</div>
+<!-- Quick Test Interaction Rail -->
+<div class="flex flex-col sm:flex-row items-center gap-3">
+<div class="relative w-full flex-1">
+<input class="w-full px-5 py-3.5 rounded-full bg-surface-container-lowest text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-focus-blue shadow-sm" type="text" value="Flow-matching generative neural audio models produce crisp, natural prosody in real time."/>
+</div>
+<button class="w-full sm:w-auto shrink-0 inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-primary-container hover:bg-primary-deep text-white font-button-md text-button-md transition-all shadow-sm" id="quick-synth-btn" onclick="simulateQuickSynthesis()" type="button">
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+<span>Test Voice (Est. ~2.1s)</span>
+</button>
+</div>
+<!-- Micro Specs Telemetry strip under tester -->
+<div class="flex flex-wrap items-center justify-between gap-4 mt-5 pt-4 text-steel font-mono text-caption">
+<div class="flex items-center gap-4">
+<span class="inline-flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">memory</span>
+            VRAM Budget: 3.8 GB active / 8.0 GB ceiling
+          </span>
+<span class="hidden md:inline text-hairline">|</span>
+<span class="inline-flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-success">lock</span>
+            Offline Isolated Environment
+          </span>
+</div>
+<div class="flex items-center gap-2">
+<span>Batch Size: 1</span>
+<span>·</span>
+<span>Sampling: Euler ODE</span>
+<span>·</span>
+<span>Precision: BF16 Native</span>
+</div>
+</div>
+</div>
+</div>
+</div></main>
+</div>
+</body></html>
+

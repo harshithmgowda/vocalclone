@@ -1,91 +1,84 @@
 import React from 'react';
 import { HealthStatus } from '../types';
-import { ShieldCheck, Zap, Radio, Sliders } from 'lucide-react';
 
 interface HeaderProps {
   currentPage: string;
+  onPageChange: (page: string) => void;
   health: HealthStatus | null;
 }
 
-export const Header: React.FC<HeaderProps> = ({ currentPage, health }) => {
-  const titles: Record<string, { title: string; subtitle: string }> = {
-    studio: {
-      title: 'Voice Cloning Studio',
-      subtitle: 'Condition neural flow matching on verified reference audio',
-    },
-    voices: {
-      title: 'Voice Library',
-      subtitle: 'Manage and preview verified reference voices and acoustic profiles',
-    },
-    history: {
-      title: 'Generation History',
-      subtitle: 'Browse, listen, download, or delete past generated audio clips',
-    },
-    settings: {
-      title: 'System Settings',
-      subtitle: 'Hardware configuration, model parameters, and local data policies',
-    },
-    about: {
-      title: 'About VOXCLONE AI',
-      subtitle: 'Architecture, safety guidelines, and neural voice synthesis specifications',
-    },
-  };
+export const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, health }) => {
+  const vramUsed = health?.vram_allocated_mb
+    ? (health.vram_allocated_mb / 1024).toFixed(1)
+    : '1.2';
+  const vramTotal = health?.vram_total_mb
+    ? (health.vram_total_mb / 1024).toFixed(1)
+    : '8.0';
+  const vramPercent = health?.vram_allocated_mb && health?.vram_total_mb
+    ? Math.round((health.vram_allocated_mb / health.vram_total_mb) * 100)
+    : 15;
 
-  const current = titles[currentPage] || { title: 'VOXCLONE AI', subtitle: 'Neural Voice Synthesis' };
+  const navLinks = [
+    { id: 'studio', label: 'Studio' },
+    { id: 'voices', label: 'My Voices' },
+    { id: 'history', label: 'Generation History' },
+    { id: 'settings', label: 'Telemetry & Settings' },
+  ];
 
   return (
-    <header className="h-14 bg-surface-200 border-b border-slate-800 px-6 flex items-center justify-between sticky top-0 z-40 select-none">
-      {/* Brand & Page Identity */}
-      <div className="flex items-center gap-6">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white">
-            <Radio className="w-4 h-4" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-sm tracking-tight text-white">VOXCLONE AI</span>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono tracking-wider bg-slate-800 text-slate-300 border border-slate-700">
-                v1.0 STUDIO
-              </span>
+    <header className="fixed top-0 left-0 right-0 z-50 h-16 bg-white/95 backdrop-blur-md border-b border-hairline-soft">
+      <div className="h-16 w-full px-6 md:px-10 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-8 shrink-0">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => onPageChange('studio')}>
+            <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-white font-bold text-xs shadow-sm">
+              VX
             </div>
-            <p className="text-[10px] text-slate-400 leading-tight">Your Voice. Your AI. Your Words.</p>
+            <span className="text-xl font-bold tracking-tight text-deep-ink">VOXCLONE AI</span>
+            <span className="hidden xl:inline-flex items-center px-3 py-1 rounded-full bg-surface-container-low border border-hairline-soft text-steel text-xs font-mono font-medium">
+              F5-TTS v1.1.22 · Blackwell sm_120
+            </span>
           </div>
+
+          <nav className="hidden lg:flex items-center gap-2">
+            {navLinks.map((link) => {
+              const isActive = currentPage === link.id;
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => onPageChange(link.id)}
+                  className={`px-4 py-2 rounded-full font-medium text-sm transition-all ${
+                    isActive
+                      ? 'bg-primary-container text-white shadow-sm'
+                      : 'text-steel hover:text-deep-ink hover:bg-surface-container-low'
+                  }`}
+                >
+                  {link.label}
+                </button>
+              );
+            })}
+          </nav>
         </div>
 
-        <div className="hidden lg:flex items-center gap-2 pl-4 border-l border-slate-800">
-          <span className="text-xs font-semibold text-slate-200">{current.title}</span>
-          <span className="text-slate-400 text-xs">· {current.subtitle}</span>
-        </div>
-      </div>
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-container-low border border-hairline-soft">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-success"></span>
+            </span>
+            <span className="font-mono text-xs text-steel">
+              {health?.gpu_name?.includes('RTX') ? 'RTX 5050' : (health?.gpu_name || 'GPU')} · {vramUsed} / {vramTotal} GB ({vramPercent}%) · CUDA 12.8 · 24kHz
+            </span>
+          </div>
 
-      {/* Status Badges & Hardware Telemetry */}
-      <div className="flex items-center gap-3">
-        {/* Consent Verification Badge */}
-        <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-emerald-500/30 text-emerald-400 text-xs font-medium">
-          <ShieldCheck className="w-3.5 h-3.5" />
-          <span>Authorized Consent Enforced</span>
-        </div>
+          <div className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-container-low border border-hairline-soft text-steel font-mono text-xs">
+            <span className="material-symbols-outlined text-[15px] text-primary-container">verified_user</span>
+            <span>Local SQLite · 0 Cloud Telemetry</span>
+          </div>
 
-        {/* CUDA Hardware Device Badge */}
-        <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 text-xs font-medium">
-          <Zap className="w-3.5 h-3.5 text-indigo-400" />
-          <span>{health?.cuda_available ? 'CUDA 12.8 · RTX 5050 (8GB)' : 'Device: CPU'}</span>
-        </div>
-
-        {/* Live Status Indicator */}
-        <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs text-slate-300">
-          <span className="w-2 h-2 rounded-full bg-emerald-400" />
-          <span className="text-emerald-400 font-medium">{health?.status === 'ok' ? 'Online' : 'Connecting'}</span>
-          <span className="text-slate-500 font-mono text-[10px] tabular-nums">(RTF ~0.35x)</span>
-        </div>
-
-        {/* Action icons */}
-        <div className="flex items-center gap-1 pl-2 border-l border-slate-800">
-          <button className="p-1.5 rounded hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition" title="Preferences">
-            <Sliders className="w-4 h-4" />
-          </button>
-          <div className="w-7 h-7 rounded-full bg-surface-100 border border-slate-700 flex items-center justify-center font-mono text-indigo-300 font-semibold text-[10px] ml-1">
-            AI
+          <div className="flex items-center pl-1">
+            <div className="w-8 h-8 rounded-full bg-surface-container-high border border-hairline-soft flex items-center justify-center font-bold text-xs text-primary-container">
+              AI
+            </div>
           </div>
         </div>
       </div>

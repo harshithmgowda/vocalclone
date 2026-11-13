@@ -1,26 +1,29 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, RotateCcw, Volume2, VolumeX, Download, Trash2, FastForward, Music } from 'lucide-react';
 
 interface AudioPlayerProps {
   src: string;
   title?: string;
+  durationSeconds?: number;
   onDelete?: () => void;
+  onRegenerate?: () => void;
   autoPlay?: boolean;
 }
 
 export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   src,
-  title = "Generated Audio Output",
+  title = "Personal Voice Sample (24kHz)",
+  durationSeconds,
   onDelete,
+  onRegenerate,
   autoPlay = false,
 }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [duration, setDuration] = useState(durationSeconds || 0);
   const [volume, setVolume] = useState(0.85);
-  const [isMuted, setIsMuted] = useState(false);
   const [playbackRate, setPlaybackRate] = useState(1.0);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     setIsPlaying(false);
@@ -50,42 +53,34 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
   const handleLoadedMetadata = () => {
     if (audioRef.current) {
-      setDuration(audioRef.current.duration || 0);
+      const dur = audioRef.current.duration || durationSeconds || 0;
+      setDuration(dur);
       if (autoPlay) {
         audioRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
       }
     }
   };
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const time = parseFloat(e.target.value);
-    setCurrentTime(time);
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const pct = Math.max(0, Math.min(1, clickX / rect.width));
+    const newTime = pct * duration;
+    setCurrentTime(newTime);
     if (audioRef.current) {
-      audioRef.current.currentTime = time;
+      audioRef.current.currentTime = newTime;
     }
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseFloat(e.target.value);
+    const val = parseFloat(e.target.value) / 100;
     setVolume(val);
     if (audioRef.current) {
       audioRef.current.volume = val;
-      setIsMuted(val === 0);
     }
   };
 
-  const toggleMute = () => {
-    if (!audioRef.current) return;
-    if (isMuted) {
-      audioRef.current.volume = volume || 0.85;
-      setIsMuted(false);
-    } else {
-      audioRef.current.volume = 0;
-      setIsMuted(true);
-    }
-  };
-
-  const handleRewind5 = () => {
+  const handleReplay5 = () => {
     if (!audioRef.current) return;
     audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 5);
   };
@@ -95,26 +90,31 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     audioRef.current.currentTime = Math.min(duration, audioRef.current.currentTime + 5);
   };
 
-  const cyclePlaybackRate = () => {
-    const rates = [1.0, 1.2, 1.5, 0.8];
-    const nextIdx = (rates.indexOf(playbackRate) + 1) % rates.length;
-    const nextRate = rates[nextIdx];
-    setPlaybackRate(nextRate);
-    if (audioRef.current) audioRef.current.playbackRate = nextRate;
+  const setRate = (rate: number) => {
+    setPlaybackRate(rate);
+    if (audioRef.current) {
+      audioRef.current.playbackRate = rate;
+    }
   };
 
-  const formatTime = (timeInSec: number) => {
-    if (isNaN(timeInSec)) return "00:00";
-    const mins = Math.floor(timeInSec / 60);
-    const secs = Math.floor(timeInSec % 60);
-    const ms = Math.floor((timeInSec % 1) * 100);
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.origin + src);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const formatSecs = (sec: number) => {
+    if (isNaN(sec)) return "00:00.00";
+    const mins = Math.floor(sec / 60);
+    const secs = Math.floor(sec % 60);
+    const ms = Math.floor((sec % 1) * 100);
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
   };
 
   const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between gap-4 max-w-7xl mx-auto select-none">
+    <div className="bg-surface-container-low rounded-3xl border border-hairline-soft p-6 shadow-sm space-y-5">
       <audio
         ref={audioRef}
         src={src}
@@ -123,143 +123,219 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         onEnded={() => setIsPlaying(false)}
       />
 
-      {/* Left Output Ident */}
-      <div className="flex items-center gap-3 min-w-[220px]">
-        <div className="w-9 h-9 rounded-lg bg-surface-300 border border-slate-700/60 flex items-center justify-center text-indigo-400">
-          <Music className="w-4 h-4" />
-        </div>
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-white truncate max-w-[140px]">{title}</span>
-            <span className="px-1.5 py-0.2 rounded text-[10px] font-mono bg-emerald-950/60 text-emerald-400 border border-emerald-500/30">
-              Synthesized
-            </span>
+      {/* Output Header & Controls */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-hairline-soft">
+        <div className="flex items-center gap-3">
+          <div className="w-3 h-3 rounded-full bg-success"></div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-sm font-bold text-deep-ink">Generated Neural Speech</span>
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-success font-mono text-xs font-bold">
+                SYNTHESIS SUCCESS
+              </span>
+            </div>
+            <div className="text-xs text-steel mt-0.5">
+              Voice: <strong className="text-deep-ink font-semibold">"{title}"</strong> · Target Duration: <span className="font-mono text-deep-ink font-bold">{formatSecs(duration)}</span>
+            </div>
           </div>
-          <div className="font-mono text-[10px] text-slate-400">vox_clone_output.wav · 24kHz</div>
+        </div>
+
+        {/* Action Pills */}
+        <div className="flex flex-wrap items-center gap-2">
+          {onRegenerate && (
+            <button
+              onClick={onRegenerate}
+              className="px-4 py-2 rounded-full bg-white border border-hairline text-steel hover:text-deep-ink hover:bg-surface-container-low font-mono text-xs font-semibold flex items-center gap-1.5 transition-all shadow-xs"
+            >
+              <span className="material-symbols-outlined text-[16px]">refresh</span>
+              Regenerate
+            </button>
+          )}
+
+          <button
+            onClick={handleCopyLink}
+            className="px-4 py-2 rounded-full bg-white border border-hairline text-steel hover:text-deep-ink hover:bg-surface-container-low font-mono text-xs font-semibold flex items-center gap-1.5 transition-all shadow-xs"
+          >
+            <span className="material-symbols-outlined text-[16px]">
+              {copied ? 'check' : 'link'}
+            </span>
+            <span>{copied ? 'Copied!' : 'Copy Link'}</span>
+          </button>
+
+          <a
+            href={src}
+            download="voxclone_generated_audio.wav"
+            className="px-5 py-2 rounded-full bg-primary-container text-white font-semibold text-xs flex items-center gap-1.5 hover:bg-primary-deep transition-all shadow-sm"
+          >
+            <span className="material-symbols-outlined text-[16px]">download</span>
+            Download WAV (24kHz 16-bit)
+          </a>
+
+          {onDelete && (
+            <button
+              onClick={onDelete}
+              className="w-8 h-8 rounded-full bg-white border border-hairline text-steel hover:text-error hover:bg-surface-container-low flex items-center justify-center transition-all shadow-xs"
+              title="Dismiss Player"
+            >
+              <span className="material-symbols-outlined text-[16px]">close</span>
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Center Scrubber & Transport Controls */}
-      <div className="flex-1 max-w-2xl w-full space-y-1.5">
-        <div className="flex items-center justify-center gap-4">
-          <button
-            onClick={handleRewind5}
-            className="p-1 rounded text-slate-400 hover:text-white transition"
-            title="Rewind 5s"
-          >
-            <RotateCcw className="w-4 h-4" />
-          </button>
-
-          <button
-            onClick={togglePlay}
-            className="w-8 h-8 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center transition active:scale-95"
-          >
-            {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
-          </button>
-
-          <button
-            onClick={handleForward5}
-            className="p-1 rounded text-slate-400 hover:text-white transition"
-            title="Forward 5s"
-          >
-            <FastForward className="w-4 h-4" />
-          </button>
-
-          {/* Volume Control */}
-          <div className="flex items-center gap-1.5 pl-3 text-slate-400">
-            <button onClick={toggleMute} className="hover:text-slate-200">
-              {isMuted || volume === 0 ? (
-                <VolumeX className="w-4 h-4 text-rose-400" />
-              ) : (
-                <Volume2 className="w-4 h-4" />
-              )}
-            </button>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.05"
-              value={isMuted ? 0 : volume}
-              onChange={handleVolumeChange}
-              className="w-16 h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
-            />
+      {/* Interactive Audio Scrubber Timeline */}
+      <div className="bg-white rounded-2xl p-5 border border-hairline-soft space-y-3 shadow-xs">
+        <div className="flex justify-between items-center font-mono text-xs text-steel">
+          <span className="flex items-center gap-1.5 font-bold uppercase text-deep-ink">
+            <span className="material-symbols-outlined text-[15px] text-primary-container">audiotrack</span>
+            F0-Pitch &amp; Mel-Spectral Waveform Render
+          </span>
+          <div className="flex items-center gap-3">
+            <span className="text-primary-container font-bold">CURSOR: {formatSecs(currentTime)}</span>
+            <span>TOTAL: {formatSecs(duration)}</span>
           </div>
-
-          {/* Speed Selector */}
-          <button
-            onClick={cyclePlaybackRate}
-            className="px-1.5 py-0.5 rounded bg-surface-300 text-slate-300 hover:text-white font-mono text-[10px] border border-slate-700"
-          >
-            {playbackRate}x
-          </button>
         </div>
 
-        {/* Waveform Scrubber & Timestamps */}
-        <div className="flex items-center gap-3">
-          <span className="font-mono tabular-nums text-[10px] text-slate-300 font-medium w-14 text-right">
-            {formatTime(currentTime)}
-          </span>
+        {/* Waveform Stage with Needle */}
+        <div
+          onClick={handleSeek}
+          className="relative h-24 bg-surface-container-low rounded-xl flex items-center px-4 cursor-pointer overflow-hidden border border-hairline-soft select-none"
+        >
+          {/* Background Grid Lines */}
+          <div className="absolute inset-0 grid grid-cols-12 pointer-events-none opacity-40">
+            {Array.from({ length: 11 }).map((_, i) => (
+              <div key={i} className="border-r border-hairline"></div>
+            ))}
+            <div></div>
+          </div>
 
-          <div className="flex-1 h-5 bg-surface-300 rounded relative overflow-hidden flex items-center px-1 border border-slate-800">
-            {/* Progress fill */}
-            <div
-              className="absolute left-0 top-0 bottom-0 bg-indigo-600/20 border-r-2 border-indigo-400 pointer-events-none"
-              style={{ width: `${progressPercent}%` }}
-            />
-            <input
-              type="range"
-              min="0"
-              max={duration || 100}
-              step="0.05"
-              value={currentTime}
-              onChange={handleSeek}
-              className="w-full h-full opacity-0 absolute inset-0 cursor-pointer z-20"
-            />
-            {/* Soundwave bars inside the scrubber */}
-            <div className="w-full flex items-center justify-between gap-[2px] z-10 pointer-events-none px-1">
-              {Array.from({ length: 48 }).map((_, i) => {
-                const height = 4 + Math.sin(i * 0.4) * 8 + (i % 3 === 0 ? 4 : 0);
-                const isPast = (i / 48) * 100 <= progressPercent;
-                return (
-                  <span
-                    key={i}
-                    className={`w-[2px] rounded-full transition-colors ${
-                      isPast ? 'bg-indigo-400' : 'bg-slate-700'
-                    }`}
-                    style={{ height: `${height}px` }}
-                  />
-                );
-              })}
+          {/* Synthetic Waveform Bars */}
+          <div className="w-full h-20 flex items-center justify-between gap-[3px] z-0">
+            {Array.from({ length: 64 }).map((_, i) => {
+              const height = 16 + Math.sin(i * 0.45) * 36 + (i % 3 === 0 ? 12 : 0);
+              const isPlayed = (i / 64) * 100 <= progressPercent;
+              return (
+                <div
+                  key={i}
+                  className={`w-1 rounded-full transition-colors ${
+                    isPlayed
+                      ? i % 4 === 0
+                        ? 'bg-deep-ink'
+                        : i % 2 === 0
+                        ? 'bg-primary-container'
+                        : 'bg-primary-soft'
+                      : 'bg-hairline'
+                  }`}
+                  style={{ height: `${Math.min(72, height)}px` }}
+                ></div>
+              );
+            })}
+          </div>
+
+          {/* Scrubber Line & Pill */}
+          <div
+            className="absolute top-0 bottom-0 w-[2px] bg-primary-container z-10 pointer-events-none transition-all"
+            style={{ left: `${progressPercent}%` }}
+          >
+            <div className="absolute -top-1 -left-[27px] bg-deep-ink text-white font-mono text-[10px] px-2 py-0.5 rounded-full shadow-xs font-bold whitespace-nowrap">
+              {formatSecs(currentTime)}
+            </div>
+          </div>
+        </div>
+
+        {/* Transport Bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+          {/* Transport Controls */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleReplay5}
+              className="w-9 h-9 rounded-full bg-surface-container-low border border-hairline text-deep-ink hover:bg-surface-container-high flex items-center justify-center transition-all shadow-xs"
+              title="Replay 5s"
+            >
+              <span className="material-symbols-outlined text-[18px]">replay_5</span>
+            </button>
+            <button
+              onClick={togglePlay}
+              className="w-11 h-11 rounded-full bg-primary-container text-white hover:bg-primary-deep flex items-center justify-center transition-all shadow-sm"
+              title="Play / Pause"
+            >
+              <span className="material-symbols-outlined text-[24px]">
+                {isPlaying ? 'pause' : 'play_arrow'}
+              </span>
+            </button>
+            <button
+              onClick={handleForward5}
+              className="w-9 h-9 rounded-full bg-surface-container-low border border-hairline text-deep-ink hover:bg-surface-container-high flex items-center justify-center transition-all shadow-xs"
+              title="Skip 5s"
+            >
+              <span className="material-symbols-outlined text-[18px]">forward_5</span>
+            </button>
+            <div className="font-mono text-xs text-deep-ink pl-2 font-medium">
+              <span className="text-primary-container font-bold">{formatSecs(currentTime)}</span>
+              <span className="text-steel"> / {formatSecs(duration)}</span>
             </div>
           </div>
 
-          <span className="font-mono tabular-nums text-[10px] text-slate-400 w-14">
-            {formatTime(duration)}
-          </span>
+          {/* Speed & Volume */}
+          <div className="flex items-center gap-4">
+            {/* Speed Selector */}
+            <div className="flex items-center bg-surface-container-low rounded-full p-1 border border-hairline-soft font-mono text-xs">
+              {[0.9, 1.0, 1.25, 1.5].map((rate) => (
+                <button
+                  key={rate}
+                  onClick={() => setRate(rate)}
+                  className={`px-2.5 py-1 rounded-full transition-all ${
+                    playbackRate === rate
+                      ? 'bg-white text-primary-container font-bold shadow-xs'
+                      : 'text-steel hover:text-deep-ink font-semibold'
+                  }`}
+                >
+                  {rate}x
+                </button>
+              ))}
+            </div>
+
+            {/* Volume */}
+            <div className="flex items-center gap-2">
+              <span className="material-symbols-outlined text-[18px] text-steel">volume_up</span>
+              <input
+                className="w-20 accent-primary-container h-1.5 bg-hairline-soft rounded-full cursor-pointer"
+                max="100"
+                min="0"
+                type="range"
+                value={Math.round(volume * 100)}
+                onChange={handleVolumeChange}
+              />
+              <span className="font-mono text-xs text-steel">{Math.round(volume * 100)}%</span>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Right Actions */}
-      <div className="flex items-center gap-3">
-        <a
-          href={src}
-          download="voxclone_generated_speech.wav"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs shadow-sm transition"
-          title="Download WAV"
-        >
-          <Download className="w-3.5 h-3.5" />
-          <span>Download WAV</span>
-        </a>
-
-        {onDelete && (
-          <button
-            onClick={onDelete}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition"
-            title="Dismiss"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
-        )}
+      {/* Inference Telemetry Footer Metrics */}
+      <div className="pt-2 flex flex-wrap items-center justify-between gap-4 font-mono text-xs text-steel">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[15px] text-success">memory</span>
+            <span>Device: <strong className="text-deep-ink font-semibold">NVIDIA RTX 5050 (sm_120)</strong></span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[15px] text-primary-container">speed</span>
+            <span>RTF: <strong className="text-success font-semibold">~0.35x (Realtime)</strong></span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[15px] text-steel">equalizer</span>
+            <span>Vocoder: <strong className="text-deep-ink font-semibold">Vocos-Mel (24kHz)</strong></span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-[15px] text-steel">storage</span>
+            <span>VRAM: <strong className="text-deep-ink font-semibold">Loaded in VRAM</strong></span>
+          </div>
+        </div>
+        <div className="flex items-center gap-1 font-mono text-xs text-steel">
+          <span className="material-symbols-outlined text-[14px]">description</span>
+          <span>storage/generated/vox_output.wav</span>
+        </div>
       </div>
     </div>
   );
