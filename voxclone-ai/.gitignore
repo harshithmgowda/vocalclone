@@ -1,0 +1,36 @@
+# Python
+backend/venv/
+backend/__pycache__/
+backend/*/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Storage and audio artifacts
+backend/storage/voices/*
+!backend/storage/voices/.gitkeep
+backend/storage/generated/*
+!backend/storage/generated/.gitkeep
+backend/storage/temporary/*
+!backend/storage/temporary/.gitkeep
+backend/storage/database/*.db
+backend/storage/database/*.sqlite
+!backend/storage/database/.gitkeep
+
+# Environment
+.env
+.env.local
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
