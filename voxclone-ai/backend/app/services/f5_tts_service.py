@@ -121,6 +121,31 @@ class F5TTSService:
                 actual_gen_text = kannada_to_phonetic(gen_text) if is_kannada(gen_text) else gen_text
                 actual_ref_text = kannada_to_phonetic(ref_text) if is_kannada(ref_text) else ref_text
 
+                # Cadence & Duration Guard:
+                # F5-TTS clips reference audio to max ~11.5s. If ref_text contains the transcript
+                # of a longer audio file, the ratio (clipped_audio / long_text) causes severe fast-forwarding.
+                # 1. Align ref_text to the actual clipped audio duration:
+                ref_info = sf.info(ref_audio_path)
+                ref_duration = ref_info.duration
+                effective_ref_dur = min(ref_duration, 11.0)
+                ref_words = actual_ref_text.split()
+                max_ref_words = max(8, int(effective_ref_dur * 2.5))
+                if len(ref_words) > max_ref_words:
+                    actual_ref_text = " ".join(ref_words[:max_ref_words])
+                    print(f"[F5TTSService] Trimmed ref_text to {len(actual_ref_text.split())} words for 1:1 duration alignment.")
+
+                # 2. Calculate natural speaking duration floor to prevent rushed output
+                gen_words = len(actual_gen_text.split())
+                natural_duration_floor = max(gen_words * 0.40, len(actual_gen_text) * 0.078) / max(0.5, speed)
+                ref_text_len = max(1, len(actual_ref_text.encode("utf-8")))
+                gen_text_len = len(actual_gen_text.encode("utf-8"))
+                expected_gen_duration = (effective_ref_dur / ref_text_len * gen_text_len) / max(0.5, speed)
+
+                fix_duration = None
+                if expected_gen_duration < natural_duration_floor:
+                    fix_duration = effective_ref_dur + natural_duration_floor
+                    print(f"[F5TTSService] Cadence Guard active: fix_duration={fix_duration:.2f}s enforced (target speech ~{natural_duration_floor:.2f}s)")
+
                 print(f"[F5TTSService] Starting voice cloning inference ({nfe_steps} steps, speed={speed})...")
                 if is_kannada(gen_text):
                     print(f"[F5TTSService] Kannada phonetics applied: '{actual_gen_text}'")
@@ -134,6 +159,7 @@ class F5TTSService:
                     nfe_step=nfe_steps,
                     speed=speed,
                     cfg_strength=cfg_strength,
+                    fix_duration=fix_duration,
                     remove_silence=False
                 )
 

@@ -18,7 +18,7 @@ export const StudioPage: React.FC<StudioPageProps> = ({ voices, onVoiceCreated }
     "ನಮಸ್ಕಾರ! ವೋಕ್ಸ್‌ಕ್ಲೋನ್ ಎಐಗೆ ಸ್ವಾಗತ. ನಿಮ್ಮದೇ ಧ್ವನಿಯಲ್ಲಿ ಯಾವುದೇ ವಾಕ್ಯವನ್ನು ಮಾತನಾಡಿ."
   );
   const [nfeSteps, setNfeSteps] = useState(32);
-  const [speed, setSpeed] = useState(1.0);
+  const [speed, setSpeed] = useState(0.9);
   const [cfgStrength, setCfgStrength] = useState(2.0);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedAudioUrl, setGeneratedAudioUrl] = useState<string | null>(null);
@@ -259,24 +259,24 @@ export const StudioPage: React.FC<StudioPageProps> = ({ voices, onVoiceCreated }
             {/* Slider 2: Speaking Speed */}
             <div className="space-y-1.5">
               <div className="flex justify-between items-center text-xs">
-                <span className="text-slate-300 font-medium">Speaking Speed</span>
+                <span className="text-slate-300 font-medium">Speaking Cadence / Speed</span>
                 <span className="font-mono px-2 py-0.5 rounded bg-surface-300 text-slate-200 border border-slate-700/60 tabular-nums text-[11px]">
-                  {speed.toFixed(1)}x
+                  {speed.toFixed(2)}x {speed <= 0.85 ? '(Relaxed)' : speed <= 1.0 ? '(Natural)' : '(Fast)'}
                 </span>
               </div>
               <input
                 type="range"
-                min="0.5"
-                max="2.0"
-                step="0.1"
+                min="0.65"
+                max="1.35"
+                step="0.05"
                 value={speed}
                 onChange={(e) => setSpeed(parseFloat(e.target.value))}
                 className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
               />
               <div className="flex justify-between text-[11px] text-slate-500">
-                <span>0.5x Slow</span>
-                <span>1.0x Normal</span>
-                <span>2.0x Accelerated</span>
+                <span>0.70x Relaxed</span>
+                <span>0.90x Natural (Recommended)</span>
+                <span>1.20x Brisk</span>
               </div>
             </div>
 
@@ -318,6 +318,17 @@ export const StudioPage: React.FC<StudioPageProps> = ({ voices, onVoiceCreated }
               >
                 <div className="w-4 h-4 bg-white rounded-full shadow-sm" />
               </div>
+            </div>
+
+            {/* Anti-Rush Cadence Guard Notice */}
+            <div className="flex items-center justify-between pt-2 border-t border-slate-800/80">
+              <div className="space-y-0.5">
+                <div className="text-xs font-medium text-slate-200">Anti-Rush Cadence Guard</div>
+                <div className="text-[11px] text-slate-400">Prevents audio compression and maintains articulate speaking pace</div>
+              </div>
+              <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950/60 text-emerald-400 border border-emerald-500/30">
+                Guarded
+              </span>
             </div>
           </div>
 

@@ -85,3 +85,4 @@ def kannada_to_phonetic(text: str) -> str:
             i += 1
 
     return ''.join(result)
+
