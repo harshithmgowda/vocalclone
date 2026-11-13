@@ -2,6 +2,7 @@
 > **"Your Voice. Your AI. Your Words."**
 
 VOXCLONE AI is a production-grade, local personal voice cloning and speech synthesis studio powered by **F5-TTS** (Flow-Matching Non-Autoregressive Transformer) and the **Vocos** neural vocoder. It provides an intuitive, high-fidelity dark-themed interface inspired by Linear and ElevenLabs, running with hardware acceleration on your NVIDIA GeForce RTX 5050 GPU.
+<img width="1526" height="725" alt="image" src="https://github.com/user-attachments/assets/6cea20ed-b936-4b5f-b9fd-5e74fc1215dc" />
 
 ---
 
