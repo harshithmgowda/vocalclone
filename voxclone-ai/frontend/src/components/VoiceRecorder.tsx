@@ -6,9 +6,10 @@ import { VoiceRecord } from '../types';
 interface VoiceRecorderProps {
   onVoiceReady: (voice: VoiceRecord) => void;
   selectedVoice: VoiceRecord | null;
+  activeLanguage?: 'en' | 'kn';
 }
 
-export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, selectedVoice }) => {
+export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, selectedVoice, activeLanguage = 'en' }) => {
   const [mode, setMode] = useState<'record' | 'upload'>('record');
   const [isRecording, setIsRecording] = useState(false);
   const [recordingDuration, setRecordingDuration] = useState(0);
@@ -261,7 +262,8 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, sele
       }
 
       if (voiceId) {
-        const res = await api.transcribeVoice(voiceId);
+        const langHint = activeLanguage === 'kn' ? 'kn' : undefined;
+        const res = await api.transcribeVoice(voiceId, undefined, langHint);
         setTranscription(res.transcription);
       }
     } catch (err: any) {
@@ -443,7 +445,11 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onVoiceReady, sele
           rows={3}
           value={transcription}
           onChange={(e) => setTranscription(e.target.value)}
-          placeholder="The exact words spoken in the reference audio (improves synthesis accuracy)..."
+          placeholder={
+            activeLanguage === 'kn'
+              ? "ರೆಫರೆನ್ಸ್ ಆಡಿಯೋದಲ್ಲಿ ಮಾತನಾಡಿದ ನಿಖರವಾದ ಕನ್ನಡ ಮಾತುಗಳು (ಉದಾ: ನಮಸ್ಕಾರ, ಇದು ನನ್ನ ಧ್ವನಿ)..."
+              : "The exact words spoken in the reference audio (improves synthesis accuracy)..."
+          }
           className="w-full bg-surface-300 border border-slate-800 rounded-xl p-3 text-slate-100 text-xs focus:border-indigo-500 focus:outline-none resize-none leading-relaxed transition"
         />
         <p className="text-[11px] text-slate-400">

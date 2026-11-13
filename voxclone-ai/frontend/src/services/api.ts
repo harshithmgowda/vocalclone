@@ -66,13 +66,13 @@ class ApiService {
     return response.json();
   }
 
-  async transcribeVoice(voiceId: string, manualTranscription?: string): Promise<{ transcription: string }> {
+  async transcribeVoice(voiceId: string, manualTranscription?: string, language?: string): Promise<{ transcription: string }> {
     return this.request<{ transcription: string }>(`/api/voice/${voiceId}/transcribe`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ manual_transcription: manualTranscription }),
+      body: JSON.stringify({ manual_transcription: manualTranscription, language: language }),
     });
   }
 

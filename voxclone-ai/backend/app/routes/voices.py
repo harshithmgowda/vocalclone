@@ -115,8 +115,8 @@ async def transcribe_voice(voice_id: str, req: TranscribeRequest):
     if req.manual_transcription and req.manual_transcription.strip():
         text = req.manual_transcription.strip()
     else:
-        # Run auto-transcribe
-        text = transcription_service.transcribe_audio(file_path)
+        # Run auto-transcribe with optional language hint (e.g. 'kn' for Kannada)
+        text = transcription_service.transcribe_audio(file_path, language=req.language)
 
     cursor.execute("UPDATE voices SET transcription = ? WHERE id = ?", (text, voice_id))
     conn.commit()

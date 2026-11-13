@@ -115,13 +115,21 @@ class F5TTSService:
         with self._lock:
             start_time = time.time()
             try:
+                from app.services.kannada_service import is_kannada, kannada_to_phonetic
+
+                # Convert Kannada to phonetic Latin if present
+                actual_gen_text = kannada_to_phonetic(gen_text) if is_kannada(gen_text) else gen_text
+                actual_ref_text = kannada_to_phonetic(ref_text) if is_kannada(ref_text) else ref_text
+
                 print(f"[F5TTSService] Starting voice cloning inference ({nfe_steps} steps, speed={speed})...")
-                
+                if is_kannada(gen_text):
+                    print(f"[F5TTSService] Kannada phonetics applied: '{actual_gen_text}'")
+
                 # Run inference through official F5TTS API
                 self._model.infer(
                     ref_file=ref_audio_path,
-                    ref_text=ref_text,
-                    gen_text=gen_text,
+                    ref_text=actual_ref_text,
+                    gen_text=actual_gen_text,
                     file_wave=output_wav_path,
                     nfe_step=nfe_steps,
                     speed=speed,

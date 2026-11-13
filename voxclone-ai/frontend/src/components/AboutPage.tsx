@@ -52,12 +52,12 @@ export const AboutPage: React.FC = () => {
         </div>
 
         <div className="p-5 rounded-2xl bg-surface-100 border border-slate-800 space-y-2">
-          <div className="flex items-center space-x-2 text-slate-200 font-semibold">
-            <Radio className="w-4 h-4 text-indigo-400" />
-            <span>Audio Fidelity</span>
+          <div className="flex items-center space-x-2 text-indigo-400 font-semibold">
+            <Radio className="w-4 h-4" />
+            <span>ಕನ್ನಡ & Multilingual Flow</span>
           </div>
           <p className="text-slate-400 leading-relaxed">
-            Operates at high-fidelity 24kHz sampling rate with continuous zero-shot flow matching, preserving authentic vocal harmonics and nuanced expressive intonation.
+            Full support for Kannada (ಕನ್ನಡ) voice synthesis with automatic phoneme transliteration from native Kannada script to acoustic flow vectors, plus Faster-Whisper Kannada auto-transcription.
           </p>
         </div>
       </div>

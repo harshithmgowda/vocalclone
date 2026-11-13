@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { VoiceRecorder } from './VoiceRecorder';
 import { AudioPlayer } from './AudioPlayer';
-import { VoiceRecord, GenerationRecord } from '../types';
+import { VoiceRecord } from '../types';
 import { api } from '../services/api';
-import { Sliders, Zap, AlertCircle, RefreshCw, AudioWaveform } from 'lucide-react';
+import { Sliders, Zap, AlertCircle, RefreshCw, AudioWaveform, Languages, Sparkles } from 'lucide-react';
+import { isKannada, kannadaToPhonetic, KANNADA_PRESETS, ENGLISH_PRESETS } from '../utils/kannada';
 
 interface StudioPageProps {
   voices: VoiceRecord[];
@@ -12,8 +13,9 @@ interface StudioPageProps {
 
 export const StudioPage: React.FC<StudioPageProps> = ({ voices, onVoiceCreated }) => {
   const [selectedVoice, setSelectedVoice] = useState<VoiceRecord | null>(voices[0] || null);
+  const [language, setLanguage] = useState<'en' | 'kn'>('kn');
   const [targetText, setTargetText] = useState(
-    "Welcome to VoxClone AI. Your neural voice model is ready to speak. Conditioned zero-shot audio flow produces lifelike emotion and authentic timbre in real-time."
+    "ನಮಸ್ಕಾರ! ವೋಕ್ಸ್‌ಕ್ಲೋನ್ ಎಐಗೆ ಸ್ವಾಗತ. ನಿಮ್ಮದೇ ಧ್ವನಿಯಲ್ಲಿ ಯಾವುದೇ ವಾಕ್ಯವನ್ನು ಮಾತನಾಡಿ."
   );
   const [nfeSteps, setNfeSteps] = useState(32);
   const [speed, setSpeed] = useState(1.0);
@@ -23,16 +25,28 @@ export const StudioPage: React.FC<StudioPageProps> = ({ voices, onVoiceCreated }
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [denoiseActive, setDenoiseActive] = useState(true);
 
-  const cadencePresets = [
-    { label: 'Podcast Intro', text: 'Welcome back to the podcast. Today, we delve deep into the bleeding edge of neural interfaces and voice generation.' },
-    { label: 'Tutorial Narration', text: 'In this step-by-step walkthrough, we configure the local environment, test inference speed, and verify the model output.' },
-    { label: 'Sci-Fi Voiceover', text: 'Telemetry confirmed. Neural synthetic flow online. All secondary vector thrusters locked on deep space trajectory.' },
-    { label: 'Dynamic Audiobook', text: 'The evening shadow lengthened across the ancient library, whispering forgotten secrets to those patient enough to listen.' },
-  ];
+  const activePresets = language === 'kn' ? KANNADA_PRESETS : ENGLISH_PRESETS;
+  const isInputKannada = isKannada(targetText);
+  const phoneticPreview = isInputKannada ? kannadaToPhonetic(targetText) : null;
+
+  const handleLanguageSwitch = (lang: 'en' | 'kn') => {
+    setLanguage(lang);
+    if (lang === 'kn') {
+      setTargetText("ನಮಸ್ಕಾರ! ವೋಕ್ಸ್‌ಕ್ಲೋನ್ ಎಐಗೆ ಸ್ವಾಗತ. ನಿಮ್ಮದೇ ಧ್ವನಿಯಲ್ಲಿ ಯಾವುದೇ ವಾಕ್ಯವನ್ನು ಮಾತನಾಡಿ.");
+    } else {
+      setTargetText("Welcome to VoxClone AI. Your neural voice model is ready to speak with authentic cadence and timbre.");
+    }
+  };
 
   const handleVoiceReady = (voice: VoiceRecord) => {
     setSelectedVoice(voice);
     onVoiceCreated();
+  };
+
+  const handleConvertKannadaToLatin = () => {
+    if (phoneticPreview) {
+      setTargetText(phoneticPreview);
+    }
   };
 
   const handleGenerate = async () => {
@@ -105,20 +119,47 @@ export const StudioPage: React.FC<StudioPageProps> = ({ voices, onVoiceCreated }
             </div>
           )}
 
-          <VoiceRecorder onVoiceReady={handleVoiceReady} selectedVoice={selectedVoice} />
+          <VoiceRecorder
+            onVoiceReady={handleVoiceReady}
+            selectedVoice={selectedVoice}
+            activeLanguage={language}
+          />
         </div>
 
         {/* COLUMN 2: SPEECH SYNTHESIS */}
         <div className="space-y-4">
           {/* Target Speech Prompt Container */}
           <div className="p-5 rounded-2xl bg-surface-100 border border-slate-800 space-y-3.5 shadow-sm">
+            {/* Header with Language Selector */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <AudioWaveform className="w-4 h-4 text-indigo-400" />
                 <h2 className="text-sm font-semibold text-slate-100">Target Speech Script</h2>
               </div>
-              <div className="tabular-nums font-mono text-[11px] text-slate-400">
-                <span className="text-indigo-400 font-semibold">{targetText.length}</span> / 2000 chars
+
+              {/* Language Switcher */}
+              <div className="flex items-center p-0.5 rounded-lg bg-surface-300 border border-slate-800 text-xs">
+                <button
+                  onClick={() => handleLanguageSwitch('kn')}
+                  className={`px-2.5 py-1 rounded-md font-medium transition flex items-center gap-1.5 ${
+                    language === 'kn'
+                      ? 'bg-indigo-600 text-white font-semibold shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <Languages className="w-3.5 h-3.5" />
+                  <span>ಕನ್ನಡ (KN)</span>
+                </button>
+                <button
+                  onClick={() => handleLanguageSwitch('en')}
+                  className={`px-2.5 py-1 rounded-md font-medium transition flex items-center gap-1.5 ${
+                    language === 'en'
+                      ? 'bg-indigo-600 text-white font-semibold shadow-sm'
+                      : 'text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span>English (EN)</span>
+                </button>
               </div>
             </div>
 
@@ -128,14 +169,47 @@ export const StudioPage: React.FC<StudioPageProps> = ({ voices, onVoiceCreated }
               value={targetText}
               onChange={(e) => setTargetText(e.target.value)}
               className="w-full bg-surface-300 border border-slate-800 rounded-xl p-3.5 text-slate-100 text-xs focus:border-indigo-500 focus:outline-none resize-none leading-relaxed transition"
-              placeholder="Enter script for speech synthesis..."
+              placeholder={
+                language === 'kn'
+                  ? "ಇಲ್ಲಿ ಕನ್ನಡದಲ್ಲಿ ಪಠ್ಯವನ್ನು ಟೈಪ್ ಮಾಡಿ (ಉದಾ: ನಮಸ್ಕಾರ, ಹೇಗಿದ್ದೀರಾ?)..."
+                  : "Enter text for speech synthesis..."
+              }
             />
+
+            {/* Real-time Kannada Phonetics Indicator */}
+            {isInputKannada && phoneticPreview && (
+              <div className="p-3 rounded-xl bg-surface-300 border border-slate-700/70 space-y-1.5 text-xs">
+                <div className="flex items-center justify-between text-slate-400">
+                  <span className="flex items-center gap-1.5 text-[11px] font-medium text-indigo-300">
+                    <Sparkles className="w-3 h-3 text-indigo-400" />
+                    Neural Phonetic Alignment:
+                  </span>
+                  <button
+                    onClick={handleConvertKannadaToLatin}
+                    className="text-[10px] text-slate-400 hover:text-white underline transition"
+                    title="Replace input with phonetic Latin text"
+                  >
+                    Use Romanized Script
+                  </button>
+                </div>
+                <p className="font-mono text-[11px] text-slate-300 leading-normal line-clamp-2">
+                  {phoneticPreview}
+                </p>
+              </div>
+            )}
 
             {/* Cadence Presets */}
             <div className="space-y-1.5">
-              <span className="text-[11px] text-slate-400 font-medium">Script Presets:</span>
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-slate-400 font-medium">
+                  {language === 'kn' ? 'ಕನ್ನಡ ಮಾದರಿಗಳು (Presets):' : 'Script Presets:'}
+                </span>
+                <span className="tabular-nums font-mono text-[11px] text-slate-400">
+                  <span className="text-indigo-400 font-semibold">{targetText.length}</span> / 2000 chars
+                </span>
+              </div>
               <div className="flex flex-wrap gap-2">
-                {cadencePresets.map((preset, i) => (
+                {activePresets.map((preset, i) => (
                   <button
                     key={i}
                     onClick={() => setTargetText(preset.text)}
@@ -256,12 +330,16 @@ export const StudioPage: React.FC<StudioPageProps> = ({ voices, onVoiceCreated }
             {isGenerating ? (
               <>
                 <RefreshCw className="w-4 h-4 animate-spin text-white" />
-                <span>Generating Speech with Cloned Voice...</span>
+                <span>
+                  {language === 'kn' ? 'ಧ್ವನಿ ಸೃಷ್ಟಿ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿದೆ (Generating Kannada Speech)...' : 'Generating Speech with Cloned Voice...'}
+                </span>
               </>
             ) : (
               <>
                 <Zap className="w-4 h-4 fill-white text-white" />
-                <span>Generate Cloned Speech</span>
+                <span>
+                  {language === 'kn' ? 'Generate Cloned Kannada Speech (ಧ್ವನಿ ಸೃಷ್ಟಿಸಿ)' : 'Generate Cloned Speech'}
+                </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-indigo-700 text-indigo-100 border border-indigo-500/40 tabular-nums">
                   RTF ~0.35x
                 </span>

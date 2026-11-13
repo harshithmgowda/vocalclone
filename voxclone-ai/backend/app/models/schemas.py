@@ -18,6 +18,7 @@ class VoiceUpdateRequest(BaseModel):
 
 class TranscribeRequest(BaseModel):
     manual_transcription: Optional[str] = None
+    language: Optional[str] = None
 
 class TranscribeResponse(BaseModel):
     transcription: str
