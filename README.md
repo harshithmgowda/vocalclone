@@ -5,18 +5,7 @@ VOXCLONE AI is a production-grade, local personal voice cloning and speech synth
 
 ---
 
-## 🚀 Live Access Addresses
 
-The application is currently configured and running at:
-
-- **Frontend Studio UI**: [http://localhost:5173](http://localhost:5173) (or [http://127.0.0.1:5173](http://127.0.0.1:5173))
-- **Backend API**: [http://localhost:8000](http://localhost:8000)
-- **Interactive Swagger API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
-- **API Health Telemetry**: [http://localhost:8000/api/health](http://localhost:8000/api/health)
-
----
-
-## ✨ Features
 
 1. **Microphone Voice Recording**: Real-time microphone capture with animated Web Audio API waveform visualization, duration timer, and immediate playback preview.
 2. **Audio File Upload**: Upload pre-recorded reference voice samples in WAV, MP3, M4A, OGG, or WebM format.
